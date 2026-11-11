@@ -1,5 +1,4 @@
 import streamlit as st
-import time
 
 st.set_page_config(
     page_title="LeftoverChef - Nấu ngon từ nguyên liệu sẵn có",
@@ -27,18 +26,14 @@ html, body, [class*="css"], .stApp {
 .stMarkdown, .stMarkdown p, .stMarkdown li,
 .stMarkdown span, .stMarkdown label,
 [data-testid="stText"], [data-testid="stCaption"],
-.stCaption, .stAlert, [data-testid="stAlert"] {
-    color:#26352d !important;
-}
+.stCaption, .stAlert, [data-testid="stAlert"] { color:#26352d !important; }
 h1, h2, h3, h4, h5, h6,
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
 .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-    color:#183b2b !important;
-    letter-spacing:-0.3px;
+    color:#183b2b !important; letter-spacing:-0.3px;
 }
 label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
-    color:#24382d !important;
-    font-weight:600 !important;
+    color:#24382d !important; font-weight:600 !important;
 }
 
 /* ---------- HERO ---------- */
@@ -46,8 +41,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
     position:relative;overflow:hidden;
     background:linear-gradient(120deg,#eaf7ee 0%,#fff8eb 60%,#fff2e8 100%);
     border:1px solid #d8e5dc;border-radius:28px;padding:38px 42px;
-    margin-bottom:26px;
-    box-shadow:0 20px 40px -20px rgba(35,122,87,.25);
+    margin-bottom:26px; box-shadow:0 20px 40px -20px rgba(35,122,87,.25);
 }
 .hero::after{
     content:"🥬";position:absolute;right:-10px;top:-10px;
@@ -84,12 +78,10 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
     box-shadow:0 18px 32px -18px rgba(35,122,87,.45);
     border-color:#b9d3c2;
 }
-.recipe .top-row{display:flex;align-items:flex-start;justify-content:space-between;}
 .recipe-emoji {
     font-size:46px;line-height:1;
     display:inline-flex;align-items:center;justify-content:center;
-    width:64px;height:64px;border-radius:16px;
-    background:#f0f7f2;
+    width:64px;height:64px;border-radius:16px;background:#f0f7f2;
 }
 .recipe h4 {color:#183b2b !important;font-size:16.5px;margin:12px 0 8px;line-height:1.3;}
 .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px;}
@@ -101,9 +93,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 .chip.time{background:#eef5fb;color:#1b5e8c !important;}
 .chip.cost{background:#fff4e0;color:#8a5a00 !important;}
 .chip.cheap{background:#e6f6ec;color:#1a6b41 !important;}
-.match-bar{
-    height:6px;border-radius:99px;background:#eef2ef;overflow:hidden;margin:6px 0 4px;
-}
+.match-bar{height:6px;border-radius:99px;background:#eef2ef;overflow:hidden;margin:6px 0 4px;}
 .match-bar > span{
     display:block;height:100%;border-radius:99px;
     background:linear-gradient(90deg,#4fae7c,#237a57);
@@ -111,74 +101,40 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 }
 .match-label{font-size:11px;font-weight:800;color:#155c3b !important;}
 .ing-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
-.ing{
-    font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:8px;
-    border:1px solid transparent;
-}
+.ing{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:8px;border:1px solid transparent;}
 .ing.have{background:#e6f6ec;color:#1a6b41 !important;border-color:#c9e8d5;}
 .ing.miss{background:#fdecec;color:#a33a3a !important;border-color:#f3cccc;}
 
-/* ---------- INPUTS ---------- */
+/* ---------- INPUTS / BUTTONS ---------- */
 input, textarea,
 [data-baseweb="input"] input,
 [data-baseweb="textarea"] textarea,
 [data-baseweb="select"] input {
-    color:#17251e !important;
-    -webkit-text-fill-color:#17251e !important;
-    background-color:#ffffff !important;
+    color:#17251e !important;-webkit-text-fill-color:#17251e !important;background-color:#ffffff !important;
 }
 input::placeholder, textarea::placeholder {
-    color:#718078 !important;
-    -webkit-text-fill-color:#718078 !important;
-    opacity:1 !important;
+    color:#718078 !important;-webkit-text-fill-color:#718078 !important;opacity:1 !important;
 }
-[data-baseweb="select"] > div {
-    background:#ffffff !important;
-    color:#17251e !important;
-}
-[data-baseweb="select"] span,
-[data-baseweb="select"] div {
-    color:#17251e !important;
-}
-
-/* ---------- BUTTONS ---------- */
 div.stButton>button, div.stDownloadButton>button {
-    border-radius:12px;font-weight:700;
-    border:1px solid #b9d3c2;
-    color:#17452f !important;
-    background:#ffffff;
-    transition:all .2s ease;
+    border-radius:12px;font-weight:700;border:1px solid #b9d3c2;
+    color:#17452f !important;background:#ffffff;transition:all .2s ease;
 }
 div.stButton>button:hover, div.stDownloadButton>button:hover {
-    border-color:#237a57 !important;
-    color:#155c3b !important;
-    background:#f4faf6 !important;
-    transform:translateY(-1px);
+    border-color:#237a57 !important;color:#155c3b !important;
+    background:#f4faf6 !important;transform:translateY(-1px);
 }
 div.stButton>button[kind="primary"] {
     background:linear-gradient(135deg,#2f9469,#237a57) !important;
-    border-color:transparent !important;
-    color:#ffffff !important;
+    border-color:transparent !important;color:#ffffff !important;
     box-shadow:0 8px 20px -8px rgba(35,122,87,.6);
 }
-div.stButton>button[kind="primary"]:hover{
-    box-shadow:0 12px 26px -10px rgba(35,122,87,.7);
-}
-
-/* ---------- METRICS / ALERTS ---------- */
 div[data-testid="stMetric"] {
     background:linear-gradient(135deg,#f0f6f1,#e9f4ec);
     padding:14px 16px;border-radius:14px;border:1px solid #dcebe1;
 }
 [data-testid="stMetricLabel"]{color:#3d5145 !important;font-size:12px !important;font-weight:700 !important;}
 [data-testid="stMetricValue"]{color:#155c3b !important;font-size:26px !important;font-weight:800 !important;}
-[data-testid="stAlert"] p, [data-testid="stAlert"] div {color:#26352d !important;}
-
-/* ---------- DIALOG ---------- */
-div[role="dialog"]{
-    border-radius:24px !important;
-    box-shadow:0 40px 80px -30px rgba(0,0,0,.4) !important;
-}
+div[role="dialog"]{border-radius:24px !important;box-shadow:0 40px 80px -30px rgba(0,0,0,.4) !important;}
 div[role="dialog"] h2{color:#183b2b !important;}
 
 /* ---------- STEPS ---------- */
@@ -193,10 +149,14 @@ div[role="dialog"] h2{color:#183b2b !important;}
 }
 .step-text{color:#2b3a31 !important;font-size:14px;line-height:1.6;}
 
-/* remove button small */
-div.stButton>button[kind="secondary"][data-testid="stBaseButton-secondary"]{
-    font-size:13px;
+/* ---------- EMPTY STATE ---------- */
+.empty-state{
+    text-align:center;padding:60px 20px;background:#ffffff;
+    border:2px dashed #d8e5dc;border-radius:20px;
 }
+.empty-state .big{font-size:64px;margin-bottom:12px;}
+.empty-state h3{color:#183b2b !important;margin:0 0 8px;}
+.empty-state p{color:#718078 !important;font-size:14px;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -210,7 +170,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------- DỮ LIỆU MẪU (giữ nguyên của bạn) --------------------
+# -------------------- DỮ LIỆU MẪU --------------------
 RECIPES = [
     {"name":"Trứng chiên cà chua","emoji":"🍳","time":12,"cost":8000,"cheap":True,
      "desc":"Món đơn giản, dễ ăn và tận dụng nguyên liệu quen thuộc.",
@@ -371,7 +331,6 @@ def show_recipe_dialog(recipe):
     matched = len(recipe["need"]) - len(missing)
     percent = round(matched / len(recipe["need"]) * 100)
 
-    # Header
     c1, c2 = st.columns([1, 3])
     with c1:
         st.markdown(f"<div style='font-size:72px;text-align:center;background:#f0f7f2;border-radius:18px;padding:10px'>{recipe['emoji']}</div>", unsafe_allow_html=True)
@@ -389,7 +348,6 @@ def show_recipe_dialog(recipe):
 
     st.markdown("---")
 
-    # Độ phù hợp
     if st.session_state.ingredients:
         st.markdown(
             f"<div class='match-label'>Độ phù hợp: {percent}% ({matched}/{len(recipe['need'])} nguyên liệu)</div>"
@@ -398,7 +356,6 @@ def show_recipe_dialog(recipe):
         )
         st.write("")
 
-    # Nguyên liệu
     st.markdown("#### 🧺 Nguyên liệu")
     ing_html = "<div class='ing-row'>"
     for ing in recipe["need"]:
@@ -410,8 +367,6 @@ def show_recipe_dialog(recipe):
     st.markdown(ing_html, unsafe_allow_html=True)
 
     st.write("")
-
-    # Các bước
     st.markdown("#### 👨‍🍳 Các bước thực hiện")
     steps = [s.strip() for s in recipe["steps"].replace(";", ".").split(".") if s.strip()]
     for i, step in enumerate(steps, 1):
@@ -421,7 +376,6 @@ def show_recipe_dialog(recipe):
             unsafe_allow_html=True
         )
 
-    # Nguyên liệu còn thiếu + chi phí
     st.write("")
     st.markdown("#### 🛒 Nguyên liệu cần mua thêm")
     if missing:
@@ -432,7 +386,6 @@ def show_recipe_dialog(recipe):
     else:
         st.success("🎉 Tuyệt vời! Bạn đã có đủ nguyên liệu cho món này.")
 
-    # Nút tải danh sách
     shopping_text = "\n".join([f"- {x}" for x in missing]) if missing else "Đã có đủ nguyên liệu."
     st.download_button(
         "⬇️ Tải danh sách mua sắm (.txt)",
@@ -442,7 +395,7 @@ def show_recipe_dialog(recipe):
         use_container_width=True,
     )
 
-# -------------------- SIDEBAR NHẬP NGUYÊN LIỆU --------------------
+# -------------------- FORM + FILTER --------------------
 left, right = st.columns([1.05, 0.95], gap="large")
 
 with left:
@@ -462,4 +415,23 @@ with left:
                 add_ingredient(item)
                 st.rerun()
 
-    st.markdown(f"**Đang có ({len(st.session_state.ingredients)
+    st.markdown(f"**Đang có ({len(st.session_state.ingredients)})**")
+    if st.session_state.ingredients:
+        for item in list(st.session_state.ingredients):
+            c1, c2 = st.columns([5,1])
+            c1.markdown(f"🟢 {item}")
+            if c2.button("✕", key=f"remove_{item}"):
+                st.session_state.ingredients.remove(item)
+                st.rerun()
+    else:
+        st.info("Chưa có nguyên liệu nào. Hãy thêm ít nhất một nguyên liệu.")
+
+    fast_only = st.checkbox("Ưu tiên món dưới 20 phút")
+    cheap_only = st.checkbox("Ưu tiên món tiết kiệm")
+    find_clicked = st.button("✨ Gợi ý món ăn cho tôi", type="primary", use_container_width=True)
+
+with right:
+    st.markdown("""
+    <div class="panel">
+      <h3>💡 LeftoverChef hoạt động như thế nào?</h3>
+      <p class="m
