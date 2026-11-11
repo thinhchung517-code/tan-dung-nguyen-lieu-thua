@@ -36,7 +36,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
     color:#24382d !important; font-weight:600 !important;
 }
 
-/* ---------- HERO ---------- */
+/* HERO */
 .hero {
     position:relative;overflow:hidden;
     background:linear-gradient(120deg,#eaf7ee 0%,#fff8eb 60%,#fff2e8 100%);
@@ -55,7 +55,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 .hero p {color:#40564a !important;font-size:15.5px;line-height:1.7;max-width:680px;}
 .hero .hero-emoji{font-size:34px;letter-spacing:6px;margin-top:8px}
 
-/* ---------- PANEL ---------- */
+/* PANEL */
 .panel {
     background:#ffffff;border:1px solid #e3ece6;border-radius:20px;
     padding:22px;margin-bottom:18px;
@@ -64,7 +64,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 .panel h3 {color:#183b2b !important;margin-top:0;font-size:17px;}
 .muted {color:#4b5d52 !important;font-size:13px;line-height:1.6;}
 
-/* ---------- RECIPE CARD ---------- */
+/* RECIPE CARD */
 .recipe {
     position:relative;
     background:linear-gradient(180deg,#ffffff 0%,#fbfdfb 100%);
@@ -105,7 +105,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 .ing.have{background:#e6f6ec;color:#1a6b41 !important;border-color:#c9e8d5;}
 .ing.miss{background:#fdecec;color:#a33a3a !important;border-color:#f3cccc;}
 
-/* ---------- INPUTS / BUTTONS ---------- */
+/* INPUTS & BUTTONS */
 input, textarea,
 [data-baseweb="input"] input,
 [data-baseweb="textarea"] textarea,
@@ -137,7 +137,7 @@ div[data-testid="stMetric"] {
 div[role="dialog"]{border-radius:24px !important;box-shadow:0 40px 80px -30px rgba(0,0,0,.4) !important;}
 div[role="dialog"] h2{color:#183b2b !important;}
 
-/* ---------- STEPS ---------- */
+/* STEPS */
 .step-item{
     display:flex;gap:12px;padding:12px 14px;border-radius:12px;
     background:#f7faf8;border:1px solid #e7efe9;margin-bottom:8px;
@@ -149,7 +149,7 @@ div[role="dialog"] h2{color:#183b2b !important;}
 }
 .step-text{color:#2b3a31 !important;font-size:14px;line-height:1.6;}
 
-/* ---------- EMPTY STATE ---------- */
+/* EMPTY STATE */
 .empty-state{
     text-align:center;padding:60px 20px;background:#ffffff;
     border:2px dashed #d8e5dc;border-radius:20px;
@@ -400,6 +400,7 @@ left, right = st.columns([1.05, 0.95], gap="large")
 
 with left:
     st.markdown('<div class="panel"><h3>🥕 Nguyên liệu của bạn</h3><p class="muted">Thêm nguyên liệu đang có trong tủ lạnh hoặc chọn nhanh bên dưới.</p></div>', unsafe_allow_html=True)
+    
     typed = st.text_input("Nhập nguyên liệu", placeholder="Ví dụ: trứng, cà chua, thịt...", label_visibility="collapsed")
     if st.button("＋ Thêm nguyên liệu", use_container_width=True):
         if typed.strip():
@@ -434,4 +435,5 @@ with right:
     st.markdown("""
     <div class="panel">
       <h3>💡 LeftoverChef hoạt động như thế nào?</h3>
-      <p class="m
+      <p class="muted">Ứng dụng đối chiếu nguyên liệu bạn nhập với công thức mẫu để tìm món phù hợp.</p>
+      <div style="background:#f4f8f3;border-radius:13px;
