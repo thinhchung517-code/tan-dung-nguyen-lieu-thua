@@ -119,6 +119,58 @@ div[data-testid="stMetric"] {
 [data-testid="stAlert"] p, [data-testid="stAlert"] div {
     color:#26352d !important;
 }
+
+/* LeftoverChef visual refresh */
+.stApp {
+    background:
+      radial-gradient(circle at 8% 2%, rgba(224,245,226,.72), transparent 28%),
+      radial-gradient(circle at 95% 10%, rgba(255,235,205,.55), transparent 25%),
+      #fbfaf6 !important;
+}
+.block-container {max-width:1280px;padding-top:1.6rem;padding-bottom:3rem;}
+.hero {
+    position:relative; overflow:hidden;
+    background:linear-gradient(125deg,#e4f5e8 0%,#f8fff8 48%,#fff2df 100%);
+    border:1px solid #d5e8d9;border-radius:28px;padding:clamp(26px,4vw,48px);
+    box-shadow:0 14px 36px rgba(33,87,57,.08);
+}
+.hero:after {
+    content:"🥗";position:absolute;right:5%;bottom:-25px;font-size:clamp(90px,13vw,170px);
+    opacity:.13;transform:rotate(-12deg);pointer-events:none;
+}
+.hero .eyebrow {display:inline-block;background:#d3ead9;padding:7px 12px;border-radius:30px;}
+.hero h1 {letter-spacing:-1.5px;font-weight:800;}
+.hero p {font-size:16px;max-width:650px;}
+.panel {
+    border:1px solid #e0e9e1;border-radius:20px;padding:23px;
+    box-shadow:0 8px 24px rgba(27,65,43,.045);transition:transform .2s,box-shadow .2s;
+}
+.recipe {
+    border:1px solid #e2e9e2;border-radius:20px;padding:20px;
+    box-shadow:0 7px 22px rgba(28,65,43,.045);transition:transform .22s,box-shadow .22s,border-color .22s;
+    min-height:245px;position:relative;overflow:hidden;
+}
+.recipe:hover {transform:translateY(-5px);box-shadow:0 15px 30px rgba(28,65,43,.11);border-color:#a9d2b5;}
+.recipe-emoji {
+    display:flex;align-items:center;justify-content:center;width:68px;height:68px;
+    border-radius:20px;background:linear-gradient(145deg,#f0f8ef,#fff4e4);
+    font-size:39px;margin-bottom:14px;
+}
+.match {letter-spacing:.2px;}
+div.stButton>button, div.stDownloadButton>button {
+    border-radius:12px!important;padding:.62rem 1rem!important;
+    transition:all .18s ease!important;font-weight:700!important;
+}
+div.stButton>button[kind="primary"] {box-shadow:0 6px 14px rgba(35,122,87,.18);}
+div.stButton>button:hover {transform:translateY(-1px);}
+[data-testid="stMetric"] {border:1px solid #e0e9e1;border-radius:15px;background:#f4f8f4;}
+[data-testid="stExpander"] {border-radius:14px!important;border-color:#e0e9e1!important;}
+hr {border-color:#e5ebe5!important;}
+@media(max-width:700px) {
+ .block-container {padding-left:1rem;padding-right:1rem;}
+ .hero {border-radius:20px;}
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -363,6 +415,7 @@ if find_clicked:
         st.session_state.results = [x[2] for x in results]
 
 st.markdown("## 🍳 Món ăn gợi ý")
+st.markdown("<p style='color:#68796d;margin-top:-8px'>Chọn một món để xem nguyên liệu, hướng dẫn nấu và chi phí mua thêm.</p>", unsafe_allow_html=True)
 results = st.session_state.results
 st.caption(f"Tìm thấy {len(results)} món ăn phù hợp" if st.session_state.ingredients else "Một số công thức mẫu để bạn trải nghiệm.")
 if results:
@@ -374,10 +427,10 @@ if results:
             st.markdown(f"""
             <div class="recipe">
               <div class="recipe-emoji">{recipe['emoji']}</div>
-              <span class="match">{percent}% nguyên liệu phù hợp</span>
-              <h4 style="margin:12px 0 6px">{recipe['name']}</h4>
+              <span class="match">♻️ {percent}% nguyên liệu phù hợp</span>
+              <h4 style="margin:12px 0 8px;font-size:18px">{recipe['name']}</h4>
               <div class="muted">⏱️ {recipe['time']} phút &nbsp; · &nbsp; 🛒 ~{recipe['cost']:,}đ mua thêm</div>
-              <p class="muted">{recipe['desc']}</p>
+              <p class="muted" style="margin-top:10px">{recipe['desc']}</p>
             </div>
             """.replace(",", "."), unsafe_allow_html=True)
             if st.button("Xem nguyên liệu & cách nấu", key=f"recipe_{recipe['name']}", use_container_width=True):
@@ -386,27 +439,59 @@ if results:
 else:
     st.info("Chưa tìm thấy món phù hợp. Hãy thêm nguyên liệu khác hoặc bỏ bớt bộ lọc.")
 
-# -------------------- DANH SÁCH MUA SẮM --------------------
-st.markdown("## 🛒 Danh sách cần mua")
+# -------------------- CÔNG THỨC CHI TIẾT & DANH SÁCH MUA SẮM --------------------
+st.markdown("## 👨‍🍳 Công thức & nguyên liệu")
 selected = st.session_state.selected_recipe
 if selected:
     missing = get_missing(selected)
     total = sum(PRICES.get(x, 5000) for x in missing)
-    st.markdown(f"### {selected['emoji']} {selected['name']}")
-    st.write("**Cách làm:**", selected["steps"])
-    if missing:
-        st.write("**Nguyên liệu còn thiếu:**")
-        for item in missing:
-            st.write(f"- {item}: khoảng {PRICES.get(item,5000):,}đ".replace(",", "."))
-    else:
-        st.success("Bạn đã có đủ nguyên liệu cho món này!")
-    st.metric("Chi phí mua thêm ước tính", f"{total:,}đ".replace(",", "."))
-    shopping_text = "\\n".join([f"- {x}" for x in missing]) if missing else "Đã có đủ nguyên liệu."
-    st.download_button("⬇️ Tải danh sách mua sắm (.txt)",
-                       data=f"Danh sách mua cho món {selected['name']}\\n{shopping_text}",
-                       file_name="danh_sach_mua_sam.txt", mime="text/plain")
+    matched_items = [x for x in selected["need"] if x not in missing]
+
+    st.markdown(f"""
+    <div style="background:linear-gradient(120deg,#eaf7ed,#fff8ec);border:1px solid #dce9dd;
+                border-radius:22px;padding:24px;margin:8px 0 18px">
+      <div style="font-size:42px">{selected['emoji']}</div>
+      <h2 style="margin:8px 0;color:#183b2b">{selected['name']}</h2>
+      <p style="color:#52675a;margin:0">{selected['desc']}</p>
+      <div style="margin-top:12px;font-weight:700;color:#237a57">
+        ⏱️ {selected['time']} phút &nbsp; · &nbsp; 💰 Dự kiến mua thêm: {total:,}đ
+      </div>
+    </div>
+    """.replace(",", "."), unsafe_allow_html=True)
+
+    detail_left, detail_right = st.columns([1, 1.25], gap="large")
+    with detail_left:
+        st.markdown("### 🧺 Nguyên liệu")
+        st.caption("Đánh dấu những gì bạn đã có trong bếp.")
+        for item in selected["need"]:
+            if item in missing:
+                st.markdown(f"🛒 **{item}** — cần mua thêm (khoảng {PRICES.get(item,5000):,}đ".replace(",", ".") + ")")
+            else:
+                st.markdown(f"✅ **{item}** — đã có")
+        st.markdown("---")
+        st.metric("Chi phí mua thêm ước tính", f"{total:,}đ".replace(",", "."))
+        shopping_text = "\\n".join([f"- {x}: khoảng {PRICES.get(x,5000):,}đ".replace(",", ".") for x in missing]) if missing else "Đã có đủ nguyên liệu."
+        st.download_button("⬇️ Tải danh sách mua sắm (.txt)",
+                           data=f"Danh sách mua cho món {selected['name']}\\n{shopping_text}",
+                           file_name="danh_sach_mua_sam.txt", mime="text/plain",
+                           use_container_width=True)
+    with detail_right:
+        st.markdown("### 👩‍🍳 Các bước thực hiện")
+        # Tách câu hướng dẫn hiện có thành các bước dễ theo dõi; dữ liệu công thức gốc vẫn được giữ.
+        raw_steps = selected["steps"].replace(";", ".")
+        step_parts = [part.strip() for part in raw_steps.split(".") if part.strip()]
+        for number, step in enumerate(step_parts, 1):
+            st.markdown(f"""
+            <div style="display:flex;gap:12px;align-items:flex-start;background:#fff;
+                        border:1px solid #e5ece5;border-radius:14px;padding:13px 15px;margin-bottom:10px">
+              <div style="min-width:30px;height:30px;border-radius:10px;background:#e3f3e7;color:#237a57;
+                          display:flex;align-items:center;justify-content:center;font-weight:800">{number}</div>
+              <div style="color:#34483b;line-height:1.65;padding-top:3px">{step}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        st.info("Mẹo: Chuẩn bị và sơ chế nguyên liệu trước khi bật bếp để nấu nhanh, gọn hơn.")
 else:
-    st.info("Chọn “Xem nguyên liệu & cách nấu” ở một món ăn để tạo danh sách mua sắm.")
+    st.info("Chọn **“Xem nguyên liệu & cách nấu”** ở một món ăn để xem công thức chi tiết và tạo danh sách mua sắm.")
 
 # -------------------- GIỚI THIỆU QUY TRÌNH --------------------
 st.markdown("## Cách sử dụng")
