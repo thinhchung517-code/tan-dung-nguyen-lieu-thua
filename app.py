@@ -10,40 +10,114 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
-html, body, [class*="css"] {font-family:'Be Vietnam Pro',sans-serif;}
+
+/* Màu chữ mặc định: đậm và dễ đọc trên nền sáng */
+html, body, [class*="css"], .stApp {
+    font-family:'Be Vietnam Pro',sans-serif;
+    color:#17251e !important;
+}
 .stApp {background:#fbfaf6;}
 .block-container {max-width:1150px;padding-top:2rem;padding-bottom:3rem;}
+
+/* Nội dung văn bản Streamlit */
+.stMarkdown, .stMarkdown p, .stMarkdown li,
+.stMarkdown span, .stMarkdown label,
+[data-testid="stText"], [data-testid="stCaption"],
+.stCaption, .stAlert, [data-testid="stAlert"] {
+    color:#26352d !important;
+}
+h1, h2, h3, h4, h5, h6,
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
+.stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+    color:#183b2b !important;
+}
+label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
+    color:#24382d !important;
+    font-weight:600 !important;
+}
+
+/* Banner đầu trang */
 .hero {
     background:linear-gradient(120deg,#edf7ef,#fff8eb);
-    border:1px solid #e5ebe6;border-radius:24px;padding:34px 38px;
+    border:1px solid #d8e5dc;border-radius:24px;padding:34px 38px;
     margin-bottom:24px;
 }
-.eyebrow {color:#237a57;font-weight:800;font-size:12px;letter-spacing:1.5px;}
-.hero h1 {font-size:clamp(32px,4vw,48px);line-height:1.12;color:#20332b;margin:10px 0;}
-.hero p {color:#61736a;font-size:15px;line-height:1.7;max-width:680px;}
+.eyebrow {color:#17613f !important;font-weight:800;font-size:12px;letter-spacing:1.5px;}
+.hero h1 {font-size:clamp(32px,4vw,48px);line-height:1.12;color:#183b2b !important;margin:10px 0;}
+.hero p {color:#40564a !important;font-size:15px;line-height:1.7;max-width:680px;}
+
+/* Các khung nội dung và thẻ món ăn */
 .panel {
-    background:white;border:1px solid #e5ebe6;border-radius:18px;
+    background:#ffffff;border:1px solid #dce7df;border-radius:18px;
     padding:22px;margin-bottom:18px;
 }
-.panel h3 {color:#20332b;margin-top:0;}
+.panel h3 {color:#183b2b !important;margin-top:0;}
 .recipe {
-    background:white;border:1px solid #e5ebe6;border-radius:16px;
+    background:#ffffff;border:1px solid #dce7df;border-radius:16px;
     padding:17px;height:100%;margin-bottom:12px;
 }
+.recipe h4 {color:#183b2b !important;}
 .recipe-emoji {font-size:42px;}
 .match {
-    display:inline-block;background:#e9f5ee;color:#237a57;
+    display:inline-block;background:#e1f2e7;color:#155c3b !important;
     padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800;
 }
-.muted {color:#6d7d74;font-size:13px;line-height:1.55;}
-div.stButton>button {
-    border-radius:10px;font-weight:700;border:1px solid #cfe1d5;
+.muted {color:#4b5d52 !important;font-size:13px;line-height:1.55;}
+
+/* Ô nhập liệu và các điều khiển */
+input, textarea,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] input {
+    color:#17251e !important;
+    -webkit-text-fill-color:#17251e !important;
+    background-color:#ffffff !important;
+}
+input::placeholder, textarea::placeholder {
+    color:#718078 !important;
+    -webkit-text-fill-color:#718078 !important;
+    opacity:1 !important;
+}
+[data-baseweb="select"] > div {
+    background:#ffffff !important;
+    color:#17251e !important;
+}
+[data-baseweb="select"] span,
+[data-baseweb="select"] div {
+    color:#17251e !important;
+}
+.stCheckbox label, .stRadio label,
+[data-testid="stCheckbox"] label p {
+    color:#24382d !important;
+}
+
+/* Nút bấm */
+div.stButton>button, div.stDownloadButton>button {
+    border-radius:10px;font-weight:700;
+    border:1px solid #b9d3c2;
+    color:#17452f !important;
+    background:#ffffff;
 }
 div.stButton>button[kind="primary"] {
-    background:#237a57;border-color:#237a57;color:white;
+    background:#237a57 !important;
+    border-color:#237a57 !important;
+    color:#ffffff !important;
 }
+div.stButton>button:hover, div.stDownloadButton>button:hover {
+    border-color:#237a57 !important;
+    color:#155c3b !important;
+}
+
+/* Khung thông báo và chỉ số */
 div[data-testid="stMetric"] {
-    background:#f4f8f3;padding:12px;border-radius:12px;
+    background:#f0f6f1;padding:12px;border-radius:12px;
+}
+[data-testid="stMetricLabel"], [data-testid="stMetricValue"],
+[data-testid="stMetricDelta"] {
+    color:#183b2b !important;
+}
+[data-testid="stAlert"] p, [data-testid="stAlert"] div {
+    color:#26352d !important;
 }
 </style>
 """, unsafe_allow_html=True)
