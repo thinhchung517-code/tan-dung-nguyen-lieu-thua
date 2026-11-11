@@ -340,7 +340,6 @@ with right:
       </div>
     </div>
     """, unsafe_allow_html=True)
-    st.warning("Bản demo sử dụng công thức và giá nguyên liệu minh họa; chưa kết nối AI hoặc cửa hàng thực tế.")
 
 # -------------------- GỢI Ý MÓN --------------------
 if "results" not in st.session_state:
