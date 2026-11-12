@@ -24,7 +24,6 @@ html, body, [class*="css"], .stApp {
 }
 .block-container { max-width: 1280px; padding-top: 1.6rem; padding-bottom: 3rem; }
 
-/* Text */
 .stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown label,
 [data-testid="stText"], [data-testid="stCaption"], .stCaption, .stAlert, [data-testid="stAlert"] {
     color: #26352d !important;
@@ -37,7 +36,6 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
     color: #24382d !important; font-weight: 600 !important;
 }
 
-/* Hero */
 .hero {
     position: relative; overflow: hidden;
     background: linear-gradient(135deg, #d5f0db 0%, #f8fff8 45%, #fff2df 100%);
@@ -61,7 +59,6 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 .hero p { color:#40564a !important; font-size:16px; line-height:1.7;
     max-width:680px; position:relative; }
 
-/* Panels */
 .panel {
     background:#ffffff; border:1px solid #e0e9e1; border-radius:20px;
     padding:22px; margin-bottom:18px;
@@ -69,7 +66,6 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
 }
 .panel h3 { color:#183b2b !important; margin-top:0; font-weight:800; }
 
-/* Recipe card */
 .recipe {
     position: relative; background:#ffffff;
     border: 1.5px solid #e2e9e2; border-radius:20px;
@@ -104,7 +100,6 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
     padding:3px 8px; border-radius:8px; font-size:10px;
     font-weight:700; margin-right:4px; margin-top:4px; }
 
-/* Inputs */
 input, textarea, [data-baseweb="input"] input, [data-baseweb="textarea"] textarea,
 [data-baseweb="select"] input {
     color:#17251e !important; -webkit-text-fill-color:#17251e !important;
@@ -117,7 +112,6 @@ input::placeholder, textarea::placeholder {
 .stCheckbox label, .stRadio label, [data-testid="stCheckbox"] label p {
     color:#24382d !important; }
 
-/* Buttons */
 div.stButton > button, div.stDownloadButton > button {
     border-radius:12px !important; padding:.62rem 1rem !important;
     transition: all .18s ease !important; font-weight:700 !important;
@@ -130,7 +124,6 @@ div.stButton > button[kind="primary"] {
     border-color:#237a57 !important; color:#ffffff !important;
     box-shadow: 0 6px 14px rgba(35,122,87,.22); }
 
-/* Metric + Expander */
 div[data-testid="stMetric"] {
     background:#f4f8f4; padding:12px; border-radius:14px;
     border:1px solid #e0e9e1; }
@@ -449,4 +442,4 @@ st.markdown("## 🍳 Món ăn gợi ý")
 if st.session_state.ingredients:
     st.markdown(
         f"<p style='color:#68796d;margin-top:-8px'>Tìm thấy <b>{len(results)}</b> món phù hợp "
-        f"với <b>{len(st.session_state.ingredients
+        f"với <b>{len(st.session_state.ingredients)}</b> nguyên liệu bạn có. Chọn một món để xem chi tiết.</
