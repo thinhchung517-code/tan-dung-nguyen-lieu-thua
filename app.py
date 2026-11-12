@@ -54,17 +54,6 @@ div.stButton > button[kind="primary"] * { color: #fff !important; -webkit-text-f
 .custom-info { background:#f8faf8; border:1px dashed #b9d3c2; border-radius:10px; padding:16px; color:#4b5d52; text-align:center; font-size:14px; }
 </style>""", unsafe_allow_html=True)
 
-# ============ SIDEBAR (AI CONFIG) ============
-with st.sidebar:
-    st.markdown("### ⚙️ Cấu hình AI")
-    if not OPENAI_AVAILABLE:
-        st.error("⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào file `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai` (nếu dùng máy cá nhân).")
-    
-    use_ai = st.toggle("✨ Sử dụng AI (ChatGPT) để sáng tạo", value=False, disabled=not OPENAI_AVAILABLE)
-    api_key = st.text_input("OpenAI API Key", type="password", help="Lấy key tại platform.openai.com")
-    st.markdown("---")
-    st.markdown("💡 **Mẹo:** Nếu không có API Key, hãy tắt AI để dùng danh sách công thức mẫu có sẵn.")
-
 # ============ HERO & DATA MẪU ============
 st.markdown("""<div class="hero">
 <div class="eyebrow">✦ TRỢ LÝ NHÀ BẾP</div>
@@ -139,6 +128,7 @@ Cấu trúc mỗi object:
 if "ingredients" not in st.session_state: st.session_state.ingredients = []
 if "selected_recipe" not in st.session_state: st.session_state.selected_recipe = None
 if "ai_results" not in st.session_state: st.session_state.ai_results = []
+if "use_ai" not in st.session_state: st.session_state.use_ai = False
 
 # ============ LAYOUT ============
 left, right = st.columns([1.05, 0.95], gap="large")
@@ -170,29 +160,41 @@ with left:
             if ic2.button("✕", key=f"rm_{item}"): st.session_state.ingredients.remove(item); st.rerun()
     else: 
         st.markdown('<div class="custom-info">Chưa có nguyên liệu nào.</div>', unsafe_allow_html=True)
-    
-    if use_ai:
-        if st.button("✨ AI Sáng tạo món ăn ngay!", type="primary", use_container_width=True):
-            if not api_key:
-                st.warning("Vui lòng nhập API Key ở thanh bên trái.")
-            elif not st.session_state.ingredients:
-                st.warning("Hãy thêm nguyên liệu trước.")
-            else:
-                with st.spinner("Đầu bếp AI đang suy nghĩ..."):
-                    st.session_state.ai_results = generate_ai_recipes(st.session_state.ingredients, api_key)
-                    st.session_state.selected_recipe = None 
 
 with right:
     st.markdown("""<div class="panel">
 <h3>💡 LeftoverChef hoạt động thế nào?</h3>
-<p class="muted">Bật AI ở thanh bên trái để tự động sinh ra công thức mới lạ từ nguyên liệu của bạn.</p>
+<p class="muted">Ứng dụng đối chiếu nguyên liệu bạn có với công thức mẫu để tìm món phù hợp.</p>
 <div style="background:linear-gradient(135deg,#f4f8f3,#eaf4ec);border-radius:13px;padding:16px;margin:12px 0">
-<div style="font-size:28px">🤖</div><b style="color: #17251e !important;">Trí tuệ nhân tạo (AI)</b>
-<p class="muted" style="margin:6px 0 0">Gợi ý món ăn bất ngờ, kết hợp nguyên liệu độc đáo mà bạn chưa từng nghĩ tới.</p></div>
-</div>""", unsafe_allow_html=True)
+<div style="font-size:28px">♻️</div><b style="color: #17251e !important;">Ưu tiên tận dụng đồ sẵn có</b>
+<p class="muted" style="margin:6px 0 0">Hạn chế mua thêm không cần thiết.</p></div>
+<div style="display:flex;gap:10px">
+<div style="background:#fff8eb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">⏱️</div><b style="color: #17251e !important;">Tiết kiệm thời gian</b></div>
+<div style="background:#edf5fb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">💰</div><b style="color: #17251e !important;">Kiểm soát chi phí</b></div>
+</div></div>""", unsafe_allow_html=True)
+    
+    # --- CHUYỂN CẤU HÌNH AI VÀO ĐÂY (Dạng thu gọn) ---
+    with st.expander("⚙️ Cấu hình AI (Dành cho người dùng nâng cao)"):
+        st.markdown("<p class='muted'>Bật tính năng này để AI tự sáng tạo ra các món ăn mới dựa trên nguyên liệu của bạn.</p>", unsafe_allow_html=True)
+        if not OPENAI_AVAILABLE:
+            st.error("⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai`.")
+        
+        st.session_state.use_ai = st.toggle("✨ Sử dụng AI (ChatGPT)", value=st.session_state.use_ai, disabled=not OPENAI_AVAILABLE)
+        api_key = st.text_input("OpenAI API Key", type="password", help="Lấy key tại platform.openai.com")
+        
+        if st.session_state.use_ai:
+            if st.button("✨ AI Sáng tạo món ăn ngay!", type="primary", use_container_width=True):
+                if not api_key:
+                    st.warning("Vui lòng nhập API Key.")
+                elif not st.session_state.ingredients:
+                    st.warning("Hãy thêm nguyên liệu trước.")
+                else:
+                    with st.spinner("Đầu bếp AI đang suy nghĩ..."):
+                        st.session_state.ai_results = generate_ai_recipes(st.session_state.ingredients, api_key)
+                        st.session_state.selected_recipe = None 
 
 # ============ LỌC KẾT QUẢ ============
-if use_ai and st.session_state.ai_results:
+if st.session_state.use_ai and st.session_state.ai_results:
     display_recipes = st.session_state.ai_results
 else:
     display_recipes = STATIC_RECIPES
@@ -201,7 +203,7 @@ else:
     display_recipes.sort(key=lambda x: len(get_missing(x, st.session_state.ingredients)))
 
 st.markdown("## 🍳 Món ăn gợi ý")
-if use_ai:
+if st.session_state.use_ai and st.session_state.ai_results:
     st.markdown("<p style='color:#68796d !important;margin-top:-8px'>Công thức được tạo bởi AI dựa trên nguyên liệu của bạn.</p>", unsafe_allow_html=True)
 else:
     st.markdown("<p style='color:#68796d !important;margin-top:-8px'>Sử dụng công thức mẫu có sẵn.</p>", unsafe_allow_html=True)
