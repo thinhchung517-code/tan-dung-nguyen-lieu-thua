@@ -10,7 +10,7 @@ except ImportError:
 
 st.set_page_config(page_title="LeftoverChef AI", page_icon="🥘", layout="wide")
 
-# ============ CSS (Đã thêm fix màu cho st.error) ============
+# ============ CSS ============
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap');
 html, body, [class*="css"], .stApp {
@@ -27,21 +27,12 @@ input, textarea, [data-baseweb="input"] input, [data-baseweb="textarea"] textare
     color: #17251e !important;
     -webkit-text-fill-color: #17251e !important;
 }
-input::placeholder, textarea::placeholder { color: #718078 !important; -webkit-text-fill-color: #718078 !important; }
 
-/* FIX MÀU CHỮ CHO KHUNG BÁO LỖI / CẢNH BÁO */
-[data-testid="stAlert"] {
-    background-color: #fff0f0 !important;
-    border: 1px solid #f5c2c7 !important;
-    border-radius: 10px;
-}
-[data-testid="stAlert"] * {
-    color: #842029 !important;
-    -webkit-text-fill-color: #842029 !important;
-}
-div[data-testid="stNotification"] p { color: #842029 !important; }
+/* KHUNG BÁO LỖI TỰ CHẾ - KHÔNG THỂ BỊ ẨN CHỮ */
+.custom-error { background:#fee2e2; border:1px solid #f87171; border-radius:8px; padding:12px; color:#991b1b !important; font-weight:600; margin-bottom:10px; }
+.custom-warning { background:#fef3c7; border:1px solid #fcd34d; border-radius:8px; padding:12px; color:#92400e !important; font-weight:600; margin-bottom:10px; }
+.custom-success { background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:12px; color:#166534 !important; font-weight:600; margin-bottom:10px; }
 
-/* Hero & Panels */
 .hero { background: linear-gradient(135deg, #d5f0db 0%, #f8fff8 45%, #fff2df 100%); border: 1px solid #cfe4d4; border-radius: 28px; padding: 40px; margin-bottom: 28px; box-shadow: 0 20px 50px -20px rgba(33,87,57,.15); }
 .eyebrow { color:#17613f !important; font-weight:800; font-size:12px; background:#c9e8d2; padding:8px 14px; border-radius:30px; display:inline-block; }
 .hero h1 { font-size: 48px; margin:16px 0 12px; letter-spacing:-1.5px; color: #183b2b !important; }
@@ -104,10 +95,13 @@ def add_ings(val):
 # ============ AI GENERATION (Dùng Groq) ============
 def generate_ai_recipes(ingredients, api_key):
     if not OPENAI_AVAILABLE:
-        st.error("Thư viện openai chưa được cài đặt.")
+        st.markdown('<div class="custom-error">Thư viện openai chưa được cài đặt.</div>', unsafe_allow_html=True)
         return []
     
-    # Sử dụng Groq (tương thích hoàn toàn với OpenAI SDK)
+    if not api_key.startswith("gsk_"):
+        st.markdown('<div class="custom-error">Lỗi: Bạn đang dùng sai API Key. Hãy lấy key miễn phí tại <b>console.groq.com</b> (Key sẽ bắt đầu bằng <b>gsk_</b>).</div>', unsafe_allow_html=True)
+        return []
+
     client = OpenAI(
         base_url="https://api.groq.com/openai/v1",
         api_key=api_key
@@ -130,7 +124,7 @@ Cấu trúc mỗi object:
 """
     try:
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile", # Model miễn phí, thông minh của Groq
+            model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
@@ -140,7 +134,8 @@ Cấu trúc mỗi object:
         content = re.sub(r'```$', '', content).strip()
         return json.loads(content)
     except Exception as e:
-        st.error(f"Lỗi AI: {e}")
+        # Dùng custom-error thay vì st.error để không bị đen chữ
+        st.markdown(f'<div class="custom-error">Lỗi AI: {e}</div>', unsafe_allow_html=True)
         return []
 
 # ============ STATE ============
@@ -195,18 +190,17 @@ with right:
     with st.expander("⚙️ Cấu hình AI (Dành cho người dùng nâng cao)"):
         st.markdown("<p class='muted'>Bật tính năng này để AI tự sáng tạo ra các món ăn mới. (Khuyên dùng <b>Groq API Key</b> - Miễn phí 14.400 requests/ngày)</p>", unsafe_allow_html=True)
         if not OPENAI_AVAILABLE:
-            st.error("⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai`.")
+            st.markdown('<div class="custom-error">⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai`.</div>', unsafe_allow_html=True)
         
         st.session_state.use_ai = st.toggle("✨ Sử dụng AI", value=st.session_state.use_ai, disabled=not OPENAI_AVAILABLE)
-        # Đổi label để hướng dẫn người dùng nhập Groq key
-        api_key = st.text_input("API Key (Groq hoặc OpenAI)", type="password", help="Lấy Groq key miễn phí tại console.groq.com")
+        api_key = st.text_input("API Key (Groq bắt đầu bằng gsk_...)", type="password")
         
         if st.session_state.use_ai:
             if st.button("✨ AI Sáng tạo món ăn ngay!", type="primary", use_container_width=True):
                 if not api_key:
-                    st.warning("Vui lòng nhập API Key.")
+                    st.markdown('<div class="custom-warning">Vui lòng nhập API Key.</div>', unsafe_allow_html=True)
                 elif not st.session_state.ingredients:
-                    st.warning("Hãy thêm nguyên liệu trước.")
+                    st.markdown('<div class="custom-warning">Hãy thêm nguyên liệu trước.</div>', unsafe_allow_html=True)
                 else:
                     with st.spinner("Đầu bếp AI đang suy nghĩ..."):
                         st.session_state.ai_results = generate_ai_recipes(st.session_state.ingredients, api_key)
