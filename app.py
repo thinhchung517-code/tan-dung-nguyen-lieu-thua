@@ -162,9 +162,7 @@ with right:
 <div style="background:#fff8eb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">⏱️</div><b style="color: #17251e !important;">Tiết kiệm thời gian</b></div>
 <div style="background:#edf5fb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">💰</div><b style="color: #17251e !important;">Kiểm soát chi phí</b></div>
 </div></div>""", unsafe_allow_html=True)
-    
-    # Thay st.warning bằng custom div
-    st.markdown('<div class="custom-warning">📝 Bản demo minh họa, chưa kết nối cửa hàng thực tế.</div>', unsafe_allow_html=True)
+
 
 res = []
 for r in RECIPES:
