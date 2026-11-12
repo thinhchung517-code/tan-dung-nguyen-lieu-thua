@@ -2,25 +2,45 @@ import streamlit as st
 
 st.set_page_config(page_title="LeftoverChef", page_icon="🥘", layout="wide")
 
-# ============ CSS (Đã fix màu nền và chữ) ============
+# ============ CSS (Đã fix triệt để lỗi Dark Mode) ============
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap');
+
+/* Cưỡng chế nền sáng cho toàn bộ app */
 html, body, [class*="css"], .stApp {
     font-family: 'Be Vietnam Pro', sans-serif !important;
     background-color: #fbfaf6 !important;
     color: #17251e !important;
 }
 .block-container { max-width: 1200px; padding-top: 1.6rem; }
-/* Ép buộc tất cả text hiển thị màu tối */
+
+/* Cưỡng chế màu chữ tối cho tất cả các thẻ text */
 p, span, div, li, label, h1, h2, h3, h4, h5, h6, [data-testid="stText"], [data-testid="stCaption"], .stMarkdown {
     color: #17251e !important;
 }
+
+/* FIX Ô NHẬP LIỆU BỊ ĐEN */
+input, textarea, [data-baseweb="input"] input, [data-baseweb="textarea"] textarea {
+    background-color: #ffffff !important;
+    color: #17251e !important;
+    -webkit-text-fill-color: #17251e !important;
+}
+input::placeholder, textarea::placeholder { 
+    color: #718078 !important; 
+    -webkit-text-fill-color: #718078 !important; 
+}
+
+/* Hero Section */
 .hero { background: linear-gradient(135deg, #d5f0db 0%, #f8fff8 45%, #fff2df 100%); border: 1px solid #cfe4d4; border-radius: 28px; padding: 40px; margin-bottom: 28px; box-shadow: 0 20px 50px -20px rgba(33,87,57,.15); }
 .eyebrow { color:#17613f !important; font-weight:800; font-size:12px; background:#c9e8d2; padding:8px 14px; border-radius:30px; display:inline-block; }
 .hero h1 { font-size: 48px; margin:16px 0 12px; letter-spacing:-1.5px; color: #183b2b !important; }
 .hero p { color:#40564a !important; font-size:16px; max-width:680px; }
+
+/* Khung Panel */
 .panel { background:#fff; border:1px solid #e0e9e1; border-radius:20px; padding:22px; margin-bottom:18px; box-shadow: 0 8px 24px -12px rgba(27,65,43,.12); }
 .panel h3 { margin-top:0; color: #183b2b !important; }
+
+/* Thẻ món ăn */
 .recipe { background:#fff; border: 1.5px solid #e2e9e2; border-radius:20px; padding:20px; box-shadow: 0 8px 24px -12px rgba(28,65,43,.12); transition: all .2s; min-height: 320px; display: flex; flex-direction: column; }
 .recipe:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -10px rgba(28,65,43,.2); border-color:#a9d2b5; }
 .recipe.perfect { border-color:#86efac; background: linear-gradient(180deg, #f0fdf4, #fff 60%); }
@@ -32,10 +52,16 @@ p, span, div, li, label, h1, h2, h3, h4, h5, h6, [data-testid="stText"], [data-t
 .recipe h4 { margin:12px 0 8px; font-size:18px; color: #183b2b !important; }
 .muted { color:#4b5d52 !important; font-size:13px; line-height:1.5; }
 .tag { background:#f5f8f5; color:#4b5d52 !important; padding:3px 8px; border-radius:8px; font-size:10px; font-weight:700; margin-right:4px; }
+
+/* Nút bấm */
 div.stButton > button { border-radius:12px !important; font-weight:700 !important; border:1px solid #b9d3c2; color:#17452f !important; background: #fff !important; }
+div.stButton > button:hover { border-color: #237a57 !important; }
 div.stButton > button[kind="primary"] { background: linear-gradient(135deg, #237a57, #1a5f43) !important; color:#fff !important; border:none; }
-div.stButton > button[kind="primary"] * { color: #fff !important; }
-div[data-testid="stMetric"] { background:#f4f8f4; padding:12px; border-radius:14px; border:1px solid #e0e9e1; }
+div.stButton > button[kind="primary"] * { color: #fff !important; -webkit-text-fill-color: #fff !important; }
+
+/* Các box custom */
+.custom-info { background:#f8faf8; border:1px dashed #b9d3c2; border-radius:10px; padding:16px; color:#4b5d52; text-align:center; font-size:14px; }
+.custom-warning { background:#fff8eb; border:1px solid #fed7aa; border-radius:10px; padding:12px; color:#9a3412 !important; font-size:14px; }
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<div class="hero">
@@ -114,7 +140,9 @@ with left:
             ic1, ic2 = st.columns([5, 1])
             ic1.markdown(f'<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:8px;color:#166534 !important;font-weight:600;font-size:14px">🟢 {item}</div>', unsafe_allow_html=True)
             if ic2.button("✕", key=f"rm_{item}"): st.session_state.ingredients.remove(item); st.rerun()
-    else: st.info("Chưa có nguyên liệu nào.")
+    else: 
+        # Thay st.info bằng custom div
+        st.markdown('<div class="custom-info">Chưa có nguyên liệu nào.</div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("**🎛️ Bộ lọc & sắp xếp**")
@@ -134,7 +162,9 @@ with right:
 <div style="background:#fff8eb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">⏱️</div><b style="color: #17251e !important;">Tiết kiệm thời gian</b></div>
 <div style="background:#edf5fb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">💰</div><b style="color: #17251e !important;">Kiểm soát chi phí</b></div>
 </div></div>""", unsafe_allow_html=True)
-    st.warning("📝 Bản demo minh họa, chưa kết nối cửa hàng thực tế.")
+    
+    # Thay st.warning bằng custom div
+    st.markdown('<div class="custom-warning">📝 Bản demo minh họa, chưa kết nối cửa hàng thực tế.</div>', unsafe_allow_html=True)
 
 res = []
 for r in RECIPES:
@@ -214,10 +244,10 @@ if res:
                 st.markdown("### 👩‍🍳 Các bước thực hiện")
                 for num, step in enumerate([p.strip() for p in sel["steps"].replace(";", ".").split(".") if p.strip()], 1):
                     st.markdown(f'<div style="display:flex;gap:12px;background:#fff;border:1px solid #e5ece5;border-radius:14px;padding:14px;margin-bottom:10px"><div style="min-width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#e3f3e7,#d1ebd8);color:#237a57 !important;display:flex;align-items:center;justify-content:center;font-weight:800">{num}</div><div style="color:#34483b !important;padding-top:4px">{step}</div></div>', unsafe_allow_html=True)
-                st.info("💡 Mẹo: Sơ chế nguyên liệu trước khi bật bếp để nấu nhanh hơn.")
+                st.markdown('<div class="custom-info" style="text-align:left; margin-top: 15px;">💡 <b>Mẹo:</b> Sơ chế nguyên liệu trước khi bật bếp để nấu nhanh hơn.</div>', unsafe_allow_html=True)
             
             st.markdown("---") # Vạch phân cách sau khi hết chi tiết
 else:
-    st.info("Chưa tìm thấy món phù hợp. Hãy thêm nguyên liệu khác.")
+    st.markdown('<div class="custom-info">Chưa tìm thấy món phù hợp. Hãy thêm nguyên liệu khác.</div>', unsafe_allow_html=True)
 
 st.markdown("<div style='text-align:center;color:#718078 !important;font-size:12px;padding:25px'>LeftoverChef © 2026</div>", unsafe_allow_html=True)
