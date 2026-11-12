@@ -2,7 +2,6 @@ import streamlit as st
 import json
 import re
 
-# --- Bắt lỗi import an toàn ---
 try:
     from openai import OpenAI
     OPENAI_AVAILABLE = True
@@ -11,7 +10,7 @@ except ImportError:
 
 st.set_page_config(page_title="LeftoverChef AI", page_icon="🥘", layout="wide")
 
-# ============ CSS ============
+# ============ CSS (Đã thêm fix màu cho st.error) ============
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap');
 html, body, [class*="css"], .stApp {
@@ -30,6 +29,19 @@ input, textarea, [data-baseweb="input"] input, [data-baseweb="textarea"] textare
 }
 input::placeholder, textarea::placeholder { color: #718078 !important; -webkit-text-fill-color: #718078 !important; }
 
+/* FIX MÀU CHỮ CHO KHUNG BÁO LỖI / CẢNH BÁO */
+[data-testid="stAlert"] {
+    background-color: #fff0f0 !important;
+    border: 1px solid #f5c2c7 !important;
+    border-radius: 10px;
+}
+[data-testid="stAlert"] * {
+    color: #842029 !important;
+    -webkit-text-fill-color: #842029 !important;
+}
+div[data-testid="stNotification"] p { color: #842029 !important; }
+
+/* Hero & Panels */
 .hero { background: linear-gradient(135deg, #d5f0db 0%, #f8fff8 45%, #fff2df 100%); border: 1px solid #cfe4d4; border-radius: 28px; padding: 40px; margin-bottom: 28px; box-shadow: 0 20px 50px -20px rgba(33,87,57,.15); }
 .eyebrow { color:#17613f !important; font-weight:800; font-size:12px; background:#c9e8d2; padding:8px 14px; border-radius:30px; display:inline-block; }
 .hero h1 { font-size: 48px; margin:16px 0 12px; letter-spacing:-1.5px; color: #183b2b !important; }
@@ -54,13 +66,14 @@ div.stButton > button[kind="primary"] * { color: #fff !important; -webkit-text-f
 .custom-info { background:#f8faf8; border:1px dashed #b9d3c2; border-radius:10px; padding:16px; color:#4b5d52; text-align:center; font-size:14px; }
 </style>""", unsafe_allow_html=True)
 
-# ============ HERO & DATA MẪU ============
+# ============ HERO ============
 st.markdown("""<div class="hero">
 <div class="eyebrow">✦ TRỢ LÝ NHÀ BẾP</div>
 <h1>Trong tủ lạnh có gì?<br><span style="color:#237a57">Nấu món đó!</span></h1>
 <p>Nhập nguyên liệu bạn đang có. Chúng tôi sẽ gợi ý món ăn, chỉ ra nguyên liệu còn thiếu và tính tiền mua thêm.</p>
 </div>""", unsafe_allow_html=True)
 
+# ============ DATA MẪU ============
 STATIC_RECIPES = [
     {"name":"Trứng chiên cà chua","emoji":"🍳","time":12,"cost":8000,"cheap":True,"desc":"Món đơn giản, dễ ăn.","need":["Trứng","Cà chua","Hành lá"],"steps":"Đánh trứng. Xào cà chua cho mềm, đổ trứng vào chiên chín và thêm hành lá."},
     {"name":"Mì xào rau củ","emoji":"🍜","time":15,"cost":12000,"cheap":True,"desc":"Bữa ăn nhanh với mì và rau củ.","need":["Mì","Rau cải","Trứng","Hành lá"],"steps":"Trụng mì, xào rau, cho mì và gia vị vào đảo đều; thêm trứng nếu thích."},
@@ -88,12 +101,18 @@ def add_ings(val):
         if p and p.casefold() not in [x.casefold() for x in st.session_state.ingredients]:
             st.session_state.ingredients.append(p)
 
-# ============ AI GENERATION FUNCTION ============
+# ============ AI GENERATION (Dùng Groq) ============
 def generate_ai_recipes(ingredients, api_key):
     if not OPENAI_AVAILABLE:
         st.error("Thư viện openai chưa được cài đặt.")
         return []
-    client = OpenAI(api_key=api_key)
+    
+    # Sử dụng Groq (tương thích hoàn toàn với OpenAI SDK)
+    client = OpenAI(
+        base_url="https://api.groq.com/openai/v1",
+        api_key=api_key
+    )
+    
     prompt = f"""Bạn là một đầu bếp chuyên nghiệp. Người dùng hiện có các nguyên liệu: {', '.join(ingredients)}.
 Hãy gợi ý 3 món ăn ngon, dễ nấu từ những nguyên liệu này (có thể mua thêm tối đa 2 nguyên liệu phụ).
 YÊU CẦU BẮT BUỘC: Chỉ trả về một mảng JSON hợp lệ (không có text giải thích, không có markdown ```json).
@@ -111,7 +130,7 @@ Cấu trúc mỗi object:
 """
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini", 
+            model="llama-3.3-70b-versatile", # Model miễn phí, thông minh của Groq
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
@@ -173,14 +192,14 @@ with right:
 <div style="background:#edf5fb;border-radius:12px;padding:14px;flex:1"><div style="font-size:24px">💰</div><b style="color: #17251e !important;">Kiểm soát chi phí</b></div>
 </div></div>""", unsafe_allow_html=True)
     
-    # --- CHUYỂN CẤU HÌNH AI VÀO ĐÂY (Dạng thu gọn) ---
     with st.expander("⚙️ Cấu hình AI (Dành cho người dùng nâng cao)"):
-        st.markdown("<p class='muted'>Bật tính năng này để AI tự sáng tạo ra các món ăn mới dựa trên nguyên liệu của bạn.</p>", unsafe_allow_html=True)
+        st.markdown("<p class='muted'>Bật tính năng này để AI tự sáng tạo ra các món ăn mới. (Khuyên dùng <b>Groq API Key</b> - Miễn phí 14.400 requests/ngày)</p>", unsafe_allow_html=True)
         if not OPENAI_AVAILABLE:
             st.error("⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai`.")
         
-        st.session_state.use_ai = st.toggle("✨ Sử dụng AI (ChatGPT)", value=st.session_state.use_ai, disabled=not OPENAI_AVAILABLE)
-        api_key = st.text_input("OpenAI API Key", type="password", help="Lấy key tại platform.openai.com")
+        st.session_state.use_ai = st.toggle("✨ Sử dụng AI", value=st.session_state.use_ai, disabled=not OPENAI_AVAILABLE)
+        # Đổi label để hướng dẫn người dùng nhập Groq key
+        api_key = st.text_input("API Key (Groq hoặc OpenAI)", type="password", help="Lấy Groq key miễn phí tại console.groq.com")
         
         if st.session_state.use_ai:
             if st.button("✨ AI Sáng tạo món ăn ngay!", type="primary", use_container_width=True):
