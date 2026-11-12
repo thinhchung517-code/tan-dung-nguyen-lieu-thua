@@ -188,7 +188,7 @@ with right:
 </div></div>""", unsafe_allow_html=True)
     
     with st.expander("⚙️ Cấu hình AI (Dành cho người dùng nâng cao)"):
-        st.markdown("<p class='muted'>Bật tính năng này để AI tự sáng tạo ra các món ăn mới. (Khuyên dùng <b>Groq API Key</b> - Miễn phí 14.400 requests/ngày)</p>", unsafe_allow_html=True)
+        
         if not OPENAI_AVAILABLE:
             st.markdown('<div class="custom-error">⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai`.</div>', unsafe_allow_html=True)
         
