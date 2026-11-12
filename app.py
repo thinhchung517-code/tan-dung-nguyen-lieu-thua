@@ -431,8 +431,6 @@ with right:
       </div>
     </div>
     """, unsafe_allow_html=True)
-    st.warning("📝 Bản demo sử dụng công thức và giá nguyên liệu minh họa; chưa kết nối AI hoặc cửa hàng thực tế.")
-
 # ============ KẾT QUẢ ============
 results = compute_results(fast_only, cheap_only, sort_by)
 if not st.session_state.ingredients:
