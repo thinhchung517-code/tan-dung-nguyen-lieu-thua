@@ -6,185 +6,159 @@ st.set_page_config(
     layout="wide"
 )
 
-# -------------------- GIAO DIỆN --------------------
+# ============ CSS ============
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
 
-/* Màu chữ mặc định: đậm và dễ đọc trên nền sáng */
 html, body, [class*="css"], .stApp {
-    font-family:'Be Vietnam Pro',sans-serif;
-    color:#17251e !important;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    color: #17251e !important;
 }
-.stApp {background:#fbfaf6;}
-.block-container {max-width:1150px;padding-top:2rem;padding-bottom:3rem;}
-
-/* Nội dung văn bản Streamlit */
-.stMarkdown, .stMarkdown p, .stMarkdown li,
-.stMarkdown span, .stMarkdown label,
-[data-testid="stText"], [data-testid="stCaption"],
-.stCaption, .stAlert, [data-testid="stAlert"] {
-    color:#26352d !important;
-}
-h1, h2, h3, h4, h5, h6,
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
-.stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-    color:#183b2b !important;
-}
-label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
-    color:#24382d !important;
-    font-weight:600 !important;
-}
-
-/* Banner đầu trang */
-.hero {
-    background:linear-gradient(120deg,#edf7ef,#fff8eb);
-    border:1px solid #d8e5dc;border-radius:24px;padding:34px 38px;
-    margin-bottom:24px;
-}
-.eyebrow {color:#17613f !important;font-weight:800;font-size:12px;letter-spacing:1.5px;}
-.hero h1 {font-size:clamp(32px,4vw,48px);line-height:1.12;color:#183b2b !important;margin:10px 0;}
-.hero p {color:#40564a !important;font-size:15px;line-height:1.7;max-width:680px;}
-
-/* Các khung nội dung và thẻ món ăn */
-.panel {
-    background:#ffffff;border:1px solid #dce7df;border-radius:18px;
-    padding:22px;margin-bottom:18px;
-}
-.panel h3 {color:#183b2b !important;margin-top:0;}
-.recipe {
-    background:#ffffff;border:1px solid #dce7df;border-radius:16px;
-    padding:17px;height:100%;margin-bottom:12px;
-}
-.recipe h4 {color:#183b2b !important;}
-.recipe-emoji {font-size:42px;}
-.match {
-    display:inline-block;background:#e1f2e7;color:#155c3b !important;
-    padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800;
-}
-.muted {color:#4b5d52 !important;font-size:13px;line-height:1.55;}
-
-/* Ô nhập liệu và các điều khiển */
-input, textarea,
-[data-baseweb="input"] input,
-[data-baseweb="textarea"] textarea,
-[data-baseweb="select"] input {
-    color:#17251e !important;
-    -webkit-text-fill-color:#17251e !important;
-    background-color:#ffffff !important;
-}
-input::placeholder, textarea::placeholder {
-    color:#718078 !important;
-    -webkit-text-fill-color:#718078 !important;
-    opacity:1 !important;
-}
-[data-baseweb="select"] > div {
-    background:#ffffff !important;
-    color:#17251e !important;
-}
-[data-baseweb="select"] span,
-[data-baseweb="select"] div {
-    color:#17251e !important;
-}
-.stCheckbox label, .stRadio label,
-[data-testid="stCheckbox"] label p {
-    color:#24382d !important;
-}
-
-/* Nút bấm */
-div.stButton>button, div.stDownloadButton>button {
-    border-radius:10px;font-weight:700;
-    border:1px solid #b9d3c2;
-    color:#17452f !important;
-    background:#ffffff;
-}
-div.stButton>button[kind="primary"] {
-    background:#237a57 !important;
-    border-color:#237a57 !important;
-    color:#ffffff !important;
-}
-div.stButton>button:hover, div.stDownloadButton>button:hover {
-    border-color:#237a57 !important;
-    color:#155c3b !important;
-}
-
-/* Khung thông báo và chỉ số */
-div[data-testid="stMetric"] {
-    background:#f0f6f1;padding:12px;border-radius:12px;
-}
-[data-testid="stMetricLabel"], [data-testid="stMetricValue"],
-[data-testid="stMetricDelta"] {
-    color:#183b2b !important;
-}
-[data-testid="stAlert"] p, [data-testid="stAlert"] div {
-    color:#26352d !important;
-}
-
-/* LeftoverChef visual refresh */
 .stApp {
     background:
-      radial-gradient(circle at 8% 2%, rgba(224,245,226,.72), transparent 28%),
-      radial-gradient(circle at 95% 10%, rgba(255,235,205,.55), transparent 25%),
-      #fbfaf6 !important;
+        radial-gradient(circle at 5% 0%, rgba(224,245,226,.85), transparent 30%),
+        radial-gradient(circle at 95% 5%, rgba(255,235,205,.7), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(230,245,255,.4), transparent 40%),
+        #fbfaf6 !important;
 }
-.block-container {max-width:1280px;padding-top:1.6rem;padding-bottom:3rem;}
-.hero {
-    position:relative; overflow:hidden;
-    background:linear-gradient(125deg,#e4f5e8 0%,#f8fff8 48%,#fff2df 100%);
-    border:1px solid #d5e8d9;border-radius:28px;padding:clamp(26px,4vw,48px);
-    box-shadow:0 14px 36px rgba(33,87,57,.08);
+.block-container { max-width: 1280px; padding-top: 1.6rem; padding-bottom: 3rem; }
+
+/* Text */
+.stMarkdown, .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown label,
+[data-testid="stText"], [data-testid="stCaption"], .stCaption, .stAlert, [data-testid="stAlert"] {
+    color: #26352d !important;
 }
-.hero:after {
-    content:"🥗";position:absolute;right:5%;bottom:-25px;font-size:clamp(90px,13vw,170px);
-    opacity:.13;transform:rotate(-12deg);pointer-events:none;
+h1,h2,h3,h4,h5,h6,.stMarkdown h1,.stMarkdown h2,.stMarkdown h3,
+.stMarkdown h4,.stMarkdown h5,.stMarkdown h6 {
+    color: #183b2b !important; font-weight: 800;
 }
-.hero .eyebrow {display:inline-block;background:#d3ead9;padding:7px 12px;border-radius:30px;}
-.hero h1 {letter-spacing:-1.5px;font-weight:800;}
-.hero p {font-size:16px;max-width:650px;}
-.panel {
-    border:1px solid #e0e9e1;border-radius:20px;padding:23px;
-    box-shadow:0 8px 24px rgba(27,65,43,.045);transition:transform .2s,box-shadow .2s;
-}
-.recipe {
-    border:1px solid #e2e9e2;border-radius:20px;padding:20px;
-    box-shadow:0 7px 22px rgba(28,65,43,.045);transition:transform .22s,box-shadow .22s,border-color .22s;
-    min-height:245px;position:relative;overflow:hidden;
-}
-.recipe:hover {transform:translateY(-5px);box-shadow:0 15px 30px rgba(28,65,43,.11);border-color:#a9d2b5;}
-.recipe-emoji {
-    display:flex;align-items:center;justify-content:center;width:68px;height:68px;
-    border-radius:20px;background:linear-gradient(145deg,#f0f8ef,#fff4e4);
-    font-size:39px;margin-bottom:14px;
-}
-.match {letter-spacing:.2px;}
-div.stButton>button, div.stDownloadButton>button {
-    border-radius:12px!important;padding:.62rem 1rem!important;
-    transition:all .18s ease!important;font-weight:700!important;
-}
-div.stButton>button[kind="primary"] {box-shadow:0 6px 14px rgba(35,122,87,.18);}
-div.stButton>button:hover {transform:translateY(-1px);}
-[data-testid="stMetric"] {border:1px solid #e0e9e1;border-radius:15px;background:#f4f8f4;}
-[data-testid="stExpander"] {border-radius:14px!important;border-color:#e0e9e1!important;}
-hr {border-color:#e5ebe5!important;}
-@media(max-width:700px) {
- .block-container {padding-left:1rem;padding-right:1rem;}
- .hero {border-radius:20px;}
+label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
+    color: #24382d !important; font-weight: 600 !important;
 }
 
+/* Hero */
+.hero {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #d5f0db 0%, #f8fff8 45%, #fff2df 100%);
+    border: 1px solid #cfe4d4; border-radius: 28px;
+    padding: clamp(28px, 4vw, 52px);
+    box-shadow: 0 20px 50px -20px rgba(33,87,57,.15);
+    margin-bottom: 28px;
+}
+.hero:before { content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.5), transparent 50%);
+    pointer-events:none; }
+.hero:after { content:"🍳"; position:absolute; right:4%; bottom:-30px;
+    font-size: clamp(100px, 15vw, 200px); opacity:.1;
+    transform: rotate(-10deg); pointer-events:none; }
+.eyebrow { display:inline-block; color:#17613f !important; font-weight:800;
+    font-size:12px; letter-spacing:1.8px; background:#c9e8d2;
+    padding:8px 14px; border-radius:30px; position:relative; }
+.hero h1 { font-size: clamp(32px,4.2vw,54px); line-height:1.08;
+    color:#183b2b !important; margin:16px 0 12px;
+    letter-spacing:-1.5px; font-weight:900; position:relative; }
+.hero p { color:#40564a !important; font-size:16px; line-height:1.7;
+    max-width:680px; position:relative; }
+
+/* Panels */
+.panel {
+    background:#ffffff; border:1px solid #e0e9e1; border-radius:20px;
+    padding:22px; margin-bottom:18px;
+    box-shadow: 0 8px 24px -12px rgba(27,65,43,.12);
+}
+.panel h3 { color:#183b2b !important; margin-top:0; font-weight:800; }
+
+/* Recipe card */
+.recipe {
+    position: relative; background:#ffffff;
+    border: 1.5px solid #e2e9e2; border-radius:20px;
+    padding:20px; box-shadow: 0 8px 24px -12px rgba(28,65,43,.12);
+    transition: all .25s ease; min-height: 320px;
+    overflow: hidden; display: flex; flex-direction: column;
+}
+.recipe:hover { transform: translateY(-6px);
+    box-shadow: 0 20px 40px -12px rgba(28,65,43,.22);
+    border-color:#a9d2b5; }
+.recipe.perfect { border-color:#86efac;
+    background: linear-gradient(180deg, #f0fdf4, #ffffff 60%); }
+.recipe-emoji { display:flex; align-items:center; justify-content:center;
+    width:72px; height:72px; border-radius:20px;
+    background: linear-gradient(145deg, #e8f5e8, #fff4e4);
+    font-size:40px; margin-bottom:14px; }
+.match-badge { display:inline-flex; align-items:center; gap:4px;
+    background:#e1f2e7; color:#155c3b !important;
+    padding:5px 10px; border-radius:20px; font-size:11px;
+    font-weight:800; letter-spacing:.2px; }
+.match-badge.perfect-badge {
+    background: linear-gradient(90deg,#fde68a,#fbbf24); color:#78350f !important; }
+.match-bar { height:6px; background:#eef4ee; border-radius:3px;
+    overflow:hidden; margin:10px 0 4px; }
+.match-bar-fill { height:100%;
+    background: linear-gradient(90deg,#3fa66b,#1f7a4d);
+    border-radius:3px; transition: width .3s ease; }
+.recipe h4 { color:#183b2b !important; margin:12px 0 8px;
+    font-size:18px; font-weight:700; line-height:1.3; }
+.muted { color:#4b5d52 !important; font-size:13px; line-height:1.55; }
+.tag { display:inline-block; background:#f5f8f5; color:#4b5d52;
+    padding:3px 8px; border-radius:8px; font-size:10px;
+    font-weight:700; margin-right:4px; margin-top:4px; }
+
+/* Inputs */
+input, textarea, [data-baseweb="input"] input, [data-baseweb="textarea"] textarea,
+[data-baseweb="select"] input {
+    color:#17251e !important; -webkit-text-fill-color:#17251e !important;
+    background-color:#ffffff !important; }
+input::placeholder, textarea::placeholder {
+    color:#718078 !important; -webkit-text-fill-color:#718078 !important;
+    opacity:1 !important; }
+[data-baseweb="select"] > div { background:#ffffff !important; color:#17251e !important; }
+[data-baseweb="select"] span, [data-baseweb="select"] div { color:#17251e !important; }
+.stCheckbox label, .stRadio label, [data-testid="stCheckbox"] label p {
+    color:#24382d !important; }
+
+/* Buttons */
+div.stButton > button, div.stDownloadButton > button {
+    border-radius:12px !important; padding:.62rem 1rem !important;
+    transition: all .18s ease !important; font-weight:700 !important;
+    border:1px solid #b9d3c2; color:#17452f !important; background:#ffffff; }
+div.stButton > button:hover, div.stDownloadButton > button:hover {
+    border-color:#237a57 !important; color:#155c3b !important;
+    transform: translateY(-1px); }
+div.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #237a57, #1a5f43) !important;
+    border-color:#237a57 !important; color:#ffffff !important;
+    box-shadow: 0 6px 14px rgba(35,122,87,.22); }
+
+/* Metric + Expander */
+div[data-testid="stMetric"] {
+    background:#f4f8f4; padding:12px; border-radius:14px;
+    border:1px solid #e0e9e1; }
+[data-testid="stMetricLabel"], [data-testid="stMetricValue"],
+[data-testid="stMetricDelta"] { color:#183b2b !important; }
+[data-testid="stExpander"] {
+    border-radius:14px !important; border-color:#e0e9e1 !important; }
+hr { border-color:#e5ebe5 !important; }
+
+@media (max-width: 700px) {
+    .block-container { padding-left: 1rem; padding-right: 1rem; }
+    .hero { border-radius: 20px; }
+}
 </style>
 """, unsafe_allow_html=True)
 
+# ============ HERO ============
 st.markdown("""
 <div class="hero">
-  <div class="eyebrow">TRỢ LÝ NHÀ BẾP THÔNG MINH</div>
+  <div class="eyebrow">✦ TRỢ LÝ NHÀ BẾP THÔNG MINH</div>
   <h1>Trong tủ lạnh có gì?<br><span style="color:#237a57">Nấu món đó!</span></h1>
   <p>Nhập những nguyên liệu bạn đang có. LeftoverChef gợi ý món ăn phù hợp,
-  chỉ ra nguyên liệu còn thiếu và ước tính chi phí cần mua thêm.</p>
-  <div style="font-size:42px">🥘 🥬 🍅</div>
+  chỉ ra nguyên liệu còn thiếu và ước tính chi phí cần mua thêm — tất cả trong vài giây.</p>
+  <div style="font-size:42px;margin-top:8px;position:relative">🥘 🥬 🍅</div>
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------- DỮ LIỆU MẪU --------------------
+# ============ DATA ============
 RECIPES = [
     {"name":"Trứng chiên cà chua","emoji":"🍳","time":12,"cost":8000,"cheap":True,
      "desc":"Món đơn giản, dễ ăn và tận dụng nguyên liệu quen thuộc.",
@@ -210,8 +184,6 @@ RECIPES = [
      "desc":"Món canh nhẹ nhàng, thích hợp dùng cùng cơm nóng.",
      "need":["Cà chua","Đậu phụ","Hành lá"],
      "steps":"Nấu cà chua với nước, cho đậu phụ vào đun nhẹ và nêm vừa ăn."},
-
-    # -------------------- MÓN ĂN BỔ SUNG --------------------
     {"name":"Trứng luộc","emoji":"🥚","time":8,"cost":4000,"cheap":True,
      "desc":"Món đơn giản, nhanh gọn và giàu protein.",
      "need":["Trứng","Muối"],
@@ -319,15 +291,22 @@ PRICES = {
     "Sả":2000, "Bắp cải":5000, "Cà tím":6000
 }
 
-if "ingredients" not in st.session_state:
-    st.session_state.ingredients = []
-if "selected_recipe" not in st.session_state:
-    st.session_state.selected_recipe = None
+# ============ HELPERS ============
+def fmt_price(n): return f"{n:,}".replace(",", ".")
 
-def add_ingredient(value):
-    value = value.strip()
-    if value and value.casefold() not in [x.casefold() for x in st.session_state.ingredients]:
-        st.session_state.ingredients.append(value)
+def get_difficulty(time_min):
+    if time_min <= 12: return "⭐ Dễ"
+    if time_min <= 20: return "⭐⭐ Vừa"
+    return "⭐⭐⭐ Khéo"
+
+def get_tags(recipe):
+    tags = []
+    if recipe["cheap"]: tags.append("💰 Tiết kiệm")
+    if recipe["time"] <= 15: tags.append("⚡ Nhanh")
+    meats = {"Thịt heo", "Thịt gà", "Cá"}
+    if not any(m in recipe["need"] for m in meats):
+        tags.append("🌱 Chay")
+    return tags
 
 def has_ingredient(item, ingredients):
     return any(item.casefold() in x.casefold() or x.casefold() in item.casefold()
@@ -336,168 +315,281 @@ def has_ingredient(item, ingredients):
 def get_missing(recipe):
     return [x for x in recipe["need"] if not has_ingredient(x, st.session_state.ingredients)]
 
-# -------------------- NHẬP NGUYÊN LIỆU --------------------
+def add_ingredients(value):
+    for part in value.split(","):
+        part = part.strip()
+        if part and part.casefold() not in [x.casefold() for x in st.session_state.ingredients]:
+            st.session_state.ingredients.append(part)
+
+def compute_results(fast_only, cheap_only, sort_by):
+    results = []
+    for recipe in RECIPES:
+        matched = len(recipe["need"]) - len(get_missing(recipe))
+        if st.session_state.ingredients and matched == 0:
+            continue
+        if fast_only and recipe["time"] > 20:
+            continue
+        if cheap_only and not recipe["cheap"]:
+            continue
+        ratio = matched / len(recipe["need"]) if st.session_state.ingredients else 0
+        results.append({"recipe": recipe, "matched": matched, "ratio": ratio})
+
+    if sort_by == "Phù hợp nhất":
+        results.sort(key=lambda x: (x["ratio"], x["matched"]), reverse=True)
+    elif sort_by == "Nhanh nhất":
+        results.sort(key=lambda x: x["recipe"]["time"])
+    elif sort_by == "Rẻ nhất":
+        results.sort(key=lambda x: x["recipe"]["cost"])
+    return results
+
+# ============ SESSION STATE ============
+if "ingredients" not in st.session_state:
+    st.session_state.ingredients = []
+if "selected_recipe" not in st.session_state:
+    st.session_state.selected_recipe = None
+
+# ============ LAYOUT ============
 left, right = st.columns([1.05, 0.95], gap="large")
 
 with left:
-    st.markdown('<div class="panel"><h3>🥕 Nguyên liệu của bạn</h3><p class="muted">Thêm nguyên liệu đang có trong tủ lạnh hoặc chọn nhanh bên dưới.</p></div>', unsafe_allow_html=True)
-    typed = st.text_input("Nhập nguyên liệu", placeholder="Ví dụ: trứng, cà chua, thịt...")
-    if st.button("＋ Thêm nguyên liệu", use_container_width=True):
-        if typed.strip():
-            add_ingredient(typed)
-            st.rerun()
+    st.markdown('<div class="panel"><h3>🥕 Nguyên liệu của bạn</h3>'
+                '<p class="muted">Thêm nguyên liệu trong tủ lạnh — có thể nhập nhiều nguyên liệu cách nhau bằng dấu phẩy.</p></div>',
+                unsafe_allow_html=True)
 
-    st.caption("Chọn nhanh:")
+    c_input, c_add = st.columns([3, 1])
+    with c_input:
+        typed = st.text_input("Nhập nguyên liệu",
+                              placeholder="Ví dụ: trứng, cà chua, hành lá...",
+                              label_visibility="collapsed")
+    with c_add:
+        if st.button("＋ Thêm", type="primary", use_container_width=True):
+            if typed.strip():
+                add_ingredients(typed)
+                st.rerun()
+
+    st.caption("⚡ Chọn nhanh:")
     quick_items = ["Trứng","Cà chua","Thịt heo","Rau cải","Đậu phụ","Mì","Gạo","Hành lá"]
     quick_cols = st.columns(4)
     for idx, item in enumerate(quick_items):
         with quick_cols[idx % 4]:
             if st.button(item, key=f"quick_{item}", use_container_width=True):
-                add_ingredient(item)
+                add_ingredients(item)
                 st.rerun()
 
-    st.markdown(f"**Đang có ({len(st.session_state.ingredients)})**")
+    ing_count = len(st.session_state.ingredients)
+    c_head, c_clear = st.columns([3, 1])
+    with c_head:
+        st.markdown(f"**📦 Đang có ({ing_count})**")
+    with c_clear:
+        if ing_count > 0 and st.button("🗑️ Xóa hết", use_container_width=True):
+            st.session_state.ingredients = []
+            st.rerun()
+
     if st.session_state.ingredients:
         for item in list(st.session_state.ingredients):
-            c1, c2 = st.columns([5,1])
-            c1.markdown(f"🟢 {item}")
+            c1, c2 = st.columns([5, 1])
+            c1.markdown(
+                f'<div style="background:#f0fdf4;border:1px solid #bbf7d0;'
+                f'border-radius:10px;padding:8px 12px;color:#166534;'
+                f'font-weight:600;font-size:14px">🟢 {item}</div>',
+                unsafe_allow_html=True)
             if c2.button("✕", key=f"remove_{item}"):
                 st.session_state.ingredients.remove(item)
                 st.rerun()
     else:
-        st.info("Chưa có nguyên liệu nào. Hãy thêm ít nhất một nguyên liệu.")
+        st.info("Chưa có nguyên liệu nào. Hãy thêm ít nhất một nguyên liệu để bắt đầu.")
 
-    fast_only = st.checkbox("Ưu tiên món dưới 20 phút")
-    cheap_only = st.checkbox("Ưu tiên món tiết kiệm")
-    find_clicked = st.button("✨ Gợi ý món ăn cho tôi", type="primary", use_container_width=True)
+    st.markdown("---")
+    st.markdown("**🎛️ Bộ lọc & sắp xếp**")
+    fc1, fc2 = st.columns(2)
+    with fc1:
+        fast_only = st.checkbox("⚡ Món dưới 20 phút")
+    with fc2:
+        cheap_only = st.checkbox("💰 Món tiết kiệm")
+    sort_by = st.radio("Sắp xếp theo",
+                       ["Phù hợp nhất", "Nhanh nhất", "Rẻ nhất"],
+                       horizontal=True)
 
 with right:
     st.markdown("""
     <div class="panel">
       <h3>💡 LeftoverChef hoạt động như thế nào?</h3>
       <p class="muted">Ứng dụng đối chiếu nguyên liệu bạn nhập với công thức mẫu để tìm món phù hợp.</p>
-      <div style="background:#f4f8f3;border-radius:13px;padding:15px;margin:12px 0">
+      <div style="background:linear-gradient(135deg,#f4f8f3,#eaf4ec);border-radius:13px;padding:16px;margin:12px 0">
         <div style="font-size:28px">♻️</div><b>Ưu tiên tận dụng đồ sẵn có</b>
-        <p class="muted">Gợi ý món có nhiều nguyên liệu trùng khớp nhất, hạn chế mua thêm không cần thiết.</p>
+        <p class="muted" style="margin:6px 0 0">Gợi ý món có nhiều nguyên liệu trùng khớp nhất, hạn chế mua thêm không cần thiết.</p>
       </div>
       <div style="display:flex;gap:10px">
-        <div style="background:#fff8eb;border-radius:12px;padding:13px;flex:1">
+        <div style="background:#fff8eb;border-radius:12px;padding:14px;flex:1">
           <div style="font-size:24px">⏱️</div><b>Tiết kiệm thời gian</b>
-          <p class="muted">Lọc món nhanh, dễ nấu.</p>
+          <p class="muted" style="margin:6px 0 0">Lọc món nhanh, dễ nấu.</p>
         </div>
-        <div style="background:#edf5fb;border-radius:12px;padding:13px;flex:1">
+        <div style="background:#edf5fb;border-radius:12px;padding:14px;flex:1">
           <div style="font-size:24px">💰</div><b>Kiểm soát chi phí</b>
-          <p class="muted">Biết cần mua thêm gì.</p>
+          <p class="muted" style="margin:6px 0 0">Biết cần mua thêm gì.</p>
         </div>
       </div>
     </div>
     """, unsafe_allow_html=True)
-    st.warning("Bản demo sử dụng công thức và giá nguyên liệu minh họa; chưa kết nối AI hoặc cửa hàng thực tế.")
+    st.warning("📝 Bản demo sử dụng công thức và giá nguyên liệu minh họa; chưa kết nối AI hoặc cửa hàng thực tế.")
 
-# -------------------- GỢI Ý MÓN --------------------
-if "results" not in st.session_state:
-    st.session_state.results = RECIPES[:3]
-
-if find_clicked:
-    if not st.session_state.ingredients:
-        st.warning("Hãy nhập ít nhất một nguyên liệu trước nhé.")
-    else:
-        results = []
-        for recipe in RECIPES:
-            matched = len(recipe["need"]) - len(get_missing(recipe))
-            if matched:
-                if fast_only and recipe["time"] > 20:
-                    continue
-                if cheap_only and not recipe["cheap"]:
-                    continue
-                results.append((matched / len(recipe["need"]), matched, recipe))
-        results.sort(key=lambda x: (x[0], x[1]), reverse=True)
-        st.session_state.results = [x[2] for x in results]
+# ============ KẾT QUẢ ============
+results = compute_results(fast_only, cheap_only, sort_by)
+if not st.session_state.ingredients:
+    results = results[:6]
 
 st.markdown("## 🍳 Món ăn gợi ý")
-st.markdown("<p style='color:#68796d;margin-top:-8px'>Chọn một món để xem nguyên liệu, hướng dẫn nấu và chi phí mua thêm.</p>", unsafe_allow_html=True)
-results = st.session_state.results
-st.caption(f"Tìm thấy {len(results)} món ăn phù hợp" if st.session_state.ingredients else "Một số công thức mẫu để bạn trải nghiệm.")
+if st.session_state.ingredients:
+    st.markdown(
+        f"<p style='color:#68796d;margin-top:-8px'>Tìm thấy <b>{len(results)}</b> món phù hợp "
+        f"với <b>{len(st.session_state.ingredients)}</b> nguyên liệu bạn có. Chọn một món để xem chi tiết.</p>",
+        unsafe_allow_html=True)
+else:
+    st.markdown(
+        "<p style='color:#68796d;margin-top:-8px'>Một số công thức mẫu để bạn trải nghiệm. "
+        "Hãy thêm nguyên liệu để nhận gợi ý chính xác hơn.</p>",
+        unsafe_allow_html=True)
+
 if results:
     cols = st.columns(3)
-    for idx, recipe in enumerate(results):
-        matched = len(recipe["need"]) - len(get_missing(recipe))
-        percent = round(matched / len(recipe["need"]) * 100) if st.session_state.ingredients else 0
+    for idx, r in enumerate(results):
+        recipe = r["recipe"]
+        percent = round(r["ratio"] * 100)
+        is_perfect = percent == 100 and st.session_state.ingredients
+
+        if not st.session_state.ingredients:
+            badge_text = "📖 Công thức mẫu"
+            badge_class = "match-badge"
+            card_class = "recipe"
+        elif is_perfect:
+            badge_text = "✨ Hoàn hảo!"
+            badge_class = "match-badge perfect-badge"
+            card_class = "recipe perfect"
+        else:
+            badge_text = f"♻️ {percent}% phù hợp"
+            badge_class = "match-badge"
+            card_class = "recipe"
+
+        tags_html = "".join([f'<span class="tag">{t}</span>' for t in get_tags(recipe)])
+
         with cols[idx % 3]:
             st.markdown(f"""
-            <div class="recipe">
+            <div class="{card_class}">
               <div class="recipe-emoji">{recipe['emoji']}</div>
-              <span class="match">♻️ {percent}% nguyên liệu phù hợp</span>
-              <h4 style="margin:12px 0 8px;font-size:18px">{recipe['name']}</h4>
-              <div class="muted">⏱️ {recipe['time']} phút &nbsp; · &nbsp; 🛒 ~{recipe['cost']:,}đ mua thêm</div>
-              <p class="muted" style="margin-top:10px">{recipe['desc']}</p>
+              <span class="{badge_class}">{badge_text}</span>
+              <div class="match-bar"><div class="match-bar-fill" style="width:{percent}%"></div></div>
+              <h4>{recipe['name']}</h4>
+              <div class="muted">⏱️ {recipe['time']} phút · 💰 ~{fmt_price(recipe['cost'])}đ · {get_difficulty(recipe['time'])}</div>
+              <p class="muted" style="margin-top:8px;flex:1">{recipe['desc']}</p>
+              <div style="margin-top:8px">{tags_html}</div>
             </div>
-            """.replace(",", "."), unsafe_allow_html=True)
-            if st.button("Xem nguyên liệu & cách nấu", key=f"recipe_{recipe['name']}", use_container_width=True):
+            """, unsafe_allow_html=True)
+            if st.button("Xem chi tiết →", key=f"recipe_{recipe['name']}", use_container_width=True):
                 st.session_state.selected_recipe = recipe
                 st.rerun()
 else:
-    st.info("Chưa tìm thấy món phù hợp. Hãy thêm nguyên liệu khác hoặc bỏ bớt bộ lọc.")
+    st.markdown("""
+    <div class="panel" style="text-align:center;padding:40px">
+      <div style="font-size:64px">🍽️</div>
+      <h3 style="margin:12px 0">Chưa tìm thấy món phù hợp</h3>
+      <p class="muted">Hãy thêm nguyên liệu khác hoặc bỏ bớt bộ lọc để xem thêm gợi ý.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-# -------------------- CÔNG THỨC CHI TIẾT & DANH SÁCH MUA SẮM --------------------
+# ============ CHI TIẾT ============
 st.markdown("## 👨‍🍳 Công thức & nguyên liệu")
 selected = st.session_state.selected_recipe
+
 if selected:
     missing = get_missing(selected)
     total = sum(PRICES.get(x, 5000) for x in missing)
-    matched_items = [x for x in selected["need"] if x not in missing]
+    tags_html = "".join([f'<span class="tag">{t}</span>' for t in get_tags(selected)])
 
     st.markdown(f"""
     <div style="background:linear-gradient(120deg,#eaf7ed,#fff8ec);border:1px solid #dce9dd;
-                border-radius:22px;padding:24px;margin:8px 0 18px">
-      <div style="font-size:42px">{selected['emoji']}</div>
-      <h2 style="margin:8px 0;color:#183b2b">{selected['name']}</h2>
-      <p style="color:#52675a;margin:0">{selected['desc']}</p>
-      <div style="margin-top:12px;font-weight:700;color:#237a57">
-        ⏱️ {selected['time']} phút &nbsp; · &nbsp; 💰 Dự kiến mua thêm: {total:,}đ
+                border-radius:22px;padding:26px;margin:8px 0 20px;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-10px;bottom:-20px;font-size:180px;opacity:.07">{selected['emoji']}</div>
+      <div style="font-size:52px">{selected['emoji']}</div>
+      <h2 style="margin:8px 0;color:#183b2b;position:relative">{selected['name']}</h2>
+      <p style="color:#52675a;margin:6px 0;position:relative">{selected['desc']}</p>
+      <div style="margin-top:10px;position:relative">{tags_html}</div>
+      <div style="margin-top:14px;font-weight:700;color:#237a57;position:relative;display:flex;gap:20px;flex-wrap:wrap">
+        <span>⏱️ {selected['time']} phút</span>
+        <span>{get_difficulty(selected['time'])}</span>
+        <span>💰 Mua thêm: {fmt_price(total)}đ</span>
       </div>
     </div>
-    """.replace(",", "."), unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
     detail_left, detail_right = st.columns([1, 1.25], gap="large")
+
     with detail_left:
         st.markdown("### 🧺 Nguyên liệu")
-        st.caption("Đánh dấu những gì bạn đã có trong bếp.")
         for item in selected["need"]:
             if item in missing:
-                st.markdown(f"🛒 **{item}** — cần mua thêm (khoảng {PRICES.get(item,5000):,}đ".replace(",", ".") + ")")
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;align-items:center;
+                            background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;
+                            padding:10px 14px;margin-bottom:8px">
+                  <span style="font-weight:600;color:#9a3412">🛒 {item}</span>
+                  <span style="color:#c2410c;font-size:12px;font-weight:700">~{fmt_price(PRICES.get(item,5000))}đ</span>
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.markdown(f"✅ **{item}** — đã có")
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;align-items:center;
+                            background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;
+                            padding:10px 14px;margin-bottom:8px">
+                  <span style="font-weight:600;color:#166534">✅ {item}</span>
+                  <span style="color:#15803d;font-size:12px;font-weight:600">Đã có</span>
+                </div>
+                """, unsafe_allow_html=True)
+
         st.markdown("---")
-        st.metric("Chi phí mua thêm ước tính", f"{total:,}đ".replace(",", "."))
-        shopping_text = "\\n".join([f"- {x}: khoảng {PRICES.get(x,5000):,}đ".replace(",", ".") for x in missing]) if missing else "Đã có đủ nguyên liệu."
+        st.metric("Chi phí mua thêm ước tính", f"{fmt_price(total)}đ")
+
+        shopping_text = "\n".join(
+            [f"- {x}: khoảng {fmt_price(PRICES.get(x,5000))}đ" for x in missing]
+        ) if missing else "Đã có đủ nguyên liệu."
+        download_content = (f"Danh sách mua cho món {selected['name']}\n\n"
+                            f"{shopping_text}\n\nTổng cộng: {fmt_price(total)}đ")
         st.download_button("⬇️ Tải danh sách mua sắm (.txt)",
-                           data=f"Danh sách mua cho món {selected['name']}\\n{shopping_text}",
-                           file_name="danh_sach_mua_sam.txt", mime="text/plain",
+                           data=download_content,
+                           file_name="danh_sach_mua_sam.txt",
+                           mime="text/plain",
                            use_container_width=True)
+
     with detail_right:
         st.markdown("### 👩‍🍳 Các bước thực hiện")
-        # Tách câu hướng dẫn hiện có thành các bước dễ theo dõi; dữ liệu công thức gốc vẫn được giữ.
         raw_steps = selected["steps"].replace(";", ".")
-        step_parts = [part.strip() for part in raw_steps.split(".") if part.strip()]
+        step_parts = [p.strip() for p in raw_steps.split(".") if p.strip()]
         for number, step in enumerate(step_parts, 1):
             st.markdown(f"""
             <div style="display:flex;gap:12px;align-items:flex-start;background:#fff;
-                        border:1px solid #e5ece5;border-radius:14px;padding:13px 15px;margin-bottom:10px">
-              <div style="min-width:30px;height:30px;border-radius:10px;background:#e3f3e7;color:#237a57;
+                        border:1px solid #e5ece5;border-radius:14px;padding:14px 16px;margin-bottom:10px">
+              <div style="min-width:32px;height:32px;border-radius:10px;
+                          background:linear-gradient(135deg,#e3f3e7,#d1ebd8);color:#237a57;
                           display:flex;align-items:center;justify-content:center;font-weight:800">{number}</div>
-              <div style="color:#34483b;line-height:1.65;padding-top:3px">{step}</div>
+              <div style="color:#34483b;line-height:1.65;padding-top:4px">{step}</div>
             </div>
             """, unsafe_allow_html=True)
-        st.info("Mẹo: Chuẩn bị và sơ chế nguyên liệu trước khi bật bếp để nấu nhanh, gọn hơn.")
+        st.info("💡 Mẹo: Chuẩn bị và sơ chế nguyên liệu trước khi bật bếp để nấu nhanh, gọn hơn.")
 else:
-    st.info("Chọn **“Xem nguyên liệu & cách nấu”** ở một món ăn để xem công thức chi tiết và tạo danh sách mua sắm.")
+    st.info("👆 Chọn **“Xem chi tiết”** ở một món ăn để xem công thức và tạo danh sách mua sắm.")
 
-# -------------------- GIỚI THIỆU QUY TRÌNH --------------------
+# ============ HOW TO USE ============
 st.markdown("## Cách sử dụng")
 c1, c2, c3 = st.columns(3)
-c1.markdown('<div class="panel"><h3>1️⃣ Nhập nguyên liệu</h3><p class="muted">Liệt kê thực phẩm bạn đang có trong tủ lạnh.</p></div>', unsafe_allow_html=True)
-c2.markdown('<div class="panel"><h3>2️⃣ Chọn món phù hợp</h3><p class="muted">Xem độ phù hợp, thời gian nấu và nguyên liệu còn thiếu.</p></div>', unsafe_allow_html=True)
-c3.markdown('<div class="panel"><h3>3️⃣ Mua đúng thứ cần</h3><p class="muted">Tạo danh sách mua sắm và dự trù số tiền cần thiết.</p></div>', unsafe_allow_html=True)
+c1.markdown('<div class="panel"><h3>1️⃣ Nhập nguyên liệu</h3>'
+            '<p class="muted">Liệt kê thực phẩm bạn đang có trong tủ lạnh.</p></div>',
+            unsafe_allow_html=True)
+c2.markdown('<div class="panel"><h3>2️⃣ Chọn món phù hợp</h3>'
+            '<p class="muted">Xem độ phù hợp, thời gian nấu và nguyên liệu còn thiếu.</p></div>',
+            unsafe_allow_html=True)
+c3.markdown('<div class="panel"><h3>3️⃣ Mua đúng thứ cần</h3>'
+            '<p class="muted">Tạo danh sách mua sắm và dự trù số tiền cần thiết.</p></div>',
+            unsafe_allow_html=True)
 
-st.markdown("<div style='text-align:center;color:#718078;font-size:12px;padding:25px'>LeftoverChef © 2026 · Biến nguyên liệu còn lại thành bữa ăn mới.</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align:center;color:#718078;font-size:12px;padding:25px'>"
+            "LeftoverChef © 2026 · Biến nguyên liệu còn lại thành bữa ăn mới.</div>",
+            unsafe_allow_html=True)
