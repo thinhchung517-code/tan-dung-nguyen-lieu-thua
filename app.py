@@ -1,7 +1,13 @@
 import streamlit as st
 import json
 import re
-from openai import OpenAI
+
+# --- Bắt lỗi import an toàn ---
+try:
+    from openai import OpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
 
 st.set_page_config(page_title="LeftoverChef AI", page_icon="🥘", layout="wide")
 
@@ -51,7 +57,10 @@ div.stButton > button[kind="primary"] * { color: #fff !important; -webkit-text-f
 # ============ SIDEBAR (AI CONFIG) ============
 with st.sidebar:
     st.markdown("### ⚙️ Cấu hình AI")
-    use_ai = st.toggle("✨ Sử dụng AI (ChatGPT) để sáng tạo", value=False)
+    if not OPENAI_AVAILABLE:
+        st.error("⚠️ Chưa cài thư viện `openai`. Vui lòng thêm `openai` vào file `requirements.txt` (nếu dùng Cloud) hoặc chạy `pip install openai` (nếu dùng máy cá nhân).")
+    
+    use_ai = st.toggle("✨ Sử dụng AI (ChatGPT) để sáng tạo", value=False, disabled=not OPENAI_AVAILABLE)
     api_key = st.text_input("OpenAI API Key", type="password", help="Lấy key tại platform.openai.com")
     st.markdown("---")
     st.markdown("💡 **Mẹo:** Nếu không có API Key, hãy tắt AI để dùng danh sách công thức mẫu có sẵn.")
@@ -92,6 +101,9 @@ def add_ings(val):
 
 # ============ AI GENERATION FUNCTION ============
 def generate_ai_recipes(ingredients, api_key):
+    if not OPENAI_AVAILABLE:
+        st.error("Thư viện openai chưa được cài đặt.")
+        return []
     client = OpenAI(api_key=api_key)
     prompt = f"""Bạn là một đầu bếp chuyên nghiệp. Người dùng hiện có các nguyên liệu: {', '.join(ingredients)}.
 Hãy gợi ý 3 món ăn ngon, dễ nấu từ những nguyên liệu này (có thể mua thêm tối đa 2 nguyên liệu phụ).
@@ -110,12 +122,11 @@ Cấu trúc mỗi object:
 """
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini", # Dùng model rẻ và nhanh
+            model="gpt-4o-mini", 
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
         content = response.choices[0].message.content.strip()
-        # Làm sạch JSON nếu AI lỡ bọc trong markdown
         content = re.sub(r'^```json', '', content)
         content = re.sub(r'^```', '', content)
         content = re.sub(r'```$', '', content).strip()
@@ -169,7 +180,7 @@ with left:
             else:
                 with st.spinner("Đầu bếp AI đang suy nghĩ..."):
                     st.session_state.ai_results = generate_ai_recipes(st.session_state.ingredients, api_key)
-                    st.session_state.selected_recipe = None # Reset món đang chọn
+                    st.session_state.selected_recipe = None 
 
 with right:
     st.markdown("""<div class="panel">
@@ -184,12 +195,9 @@ with right:
 if use_ai and st.session_state.ai_results:
     display_recipes = st.session_state.ai_results
 else:
-    # Dùng công thức mẫu
     display_recipes = STATIC_RECIPES
     if st.session_state.ingredients:
         display_recipes = [r for r in STATIC_RECIPES if len(get_missing(r, st.session_state.ingredients)) < len(r["need"])]
-    
-    # Sắp xếp mẫu
     display_recipes.sort(key=lambda x: len(get_missing(x, st.session_state.ingredients)))
 
 st.markdown("## 🍳 Món ăn gợi ý")
@@ -222,7 +230,6 @@ if display_recipes:
                     st.session_state.selected_recipe = r
                     st.rerun()
 
-        # Inline Recipe Details
         row_recipe_names = [r["name"] for r in row_data]
         sel = st.session_state.selected_recipe
         
