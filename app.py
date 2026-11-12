@@ -74,7 +74,7 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p {
     position: relative; background:#ffffff;
     border: 1.5px solid #e2e9e2; border-radius:20px;
     padding:20px; box-shadow: 0 8px 24px -12px rgba(28,65,43,.12);
-    transition: all .25s ease; min-height: 320px;
+    transition: all .25s ease; min-height: 340px;
     overflow: hidden; display: flex; flex-direction: column;
 }
 .recipe:hover { transform: translateY(-6px);
@@ -292,17 +292,22 @@ PRICES = {
 }
 
 # ============ HELPERS ============
-def fmt_price(n): return f"{n:,}".replace(",", ".")
+def fmt_price(n):
+    return f"{n:,}".replace(",", ".")
 
 def get_difficulty(time_min):
-    if time_min <= 12: return "⭐ Dễ"
-    if time_min <= 20: return "⭐⭐ Vừa"
+    if time_min <= 12:
+        return "⭐ Dễ"
+    if time_min <= 20:
+        return "⭐⭐ Vừa"
     return "⭐⭐⭐ Khéo"
 
 def get_tags(recipe):
     tags = []
-    if recipe["cheap"]: tags.append("💰 Tiết kiệm")
-    if recipe["time"] <= 15: tags.append("⚡ Nhanh")
+    if recipe["cheap"]:
+        tags.append("💰 Tiết kiệm")
+    if recipe["time"] <= 15:
+        tags.append("⚡ Nhanh")
     meats = {"Thịt heo", "Thịt gà", "Cá"}
     if not any(m in recipe["need"] for m in meats):
         tags.append("🌱 Chay")
@@ -352,9 +357,10 @@ if "selected_recipe" not in st.session_state:
 left, right = st.columns([1.05, 0.95], gap="large")
 
 with left:
-    st.markdown('<div class="panel"><h3>🥕 Nguyên liệu của bạn</h3>'
-                '<p class="muted">Thêm nguyên liệu trong tủ lạnh — có thể nhập nhiều nguyên liệu cách nhau bằng dấu phẩy.</p></div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="panel"><h3>🥕 Nguyên liệu của bạn</h3>'
+        '<p class="muted">Thêm nguyên liệu trong tủ lạnh — có thể nhập nhiều nguyên liệu cách nhau bằng dấu phẩy.</p></div>',
+        unsafe_allow_html=True)
 
     c_input, c_add = st.columns([3, 1])
     with c_input:
@@ -368,7 +374,8 @@ with left:
                 st.rerun()
 
     st.caption("⚡ Chọn nhanh:")
-    quick_items = ["Trứng","Cà chua","Thịt heo","Rau cải","Đậu phụ","Mì","Gạo","Hành lá"]
+    quick_items = ["Trứng", "Cà chua", "Thịt heo", "Rau cải",
+                   "Đậu phụ", "Mì", "Gạo", "Hành lá"]
     quick_cols = st.columns(4)
     for idx, item in enumerate(quick_items):
         with quick_cols[idx % 4]:
@@ -431,6 +438,8 @@ with right:
       </div>
     </div>
     """, unsafe_allow_html=True)
+    st.warning("📝 Bản demo sử dụng công thức và giá nguyên liệu minh họa; chưa kết nối AI hoặc cửa hàng thực tế.")
+
 # ============ KẾT QUẢ ============
 results = compute_results(fast_only, cheap_only, sort_by)
 if not st.session_state.ingredients:
@@ -440,154 +449,4 @@ st.markdown("## 🍳 Món ăn gợi ý")
 if st.session_state.ingredients:
     st.markdown(
         f"<p style='color:#68796d;margin-top:-8px'>Tìm thấy <b>{len(results)}</b> món phù hợp "
-        f"với <b>{len(st.session_state.ingredients)}</b> nguyên liệu bạn có. Chọn một món để xem chi tiết.</p>",
-        unsafe_allow_html=True)
-else:
-    st.markdown(
-        "<p style='color:#68796d;margin-top:-8px'>Một số công thức mẫu để bạn trải nghiệm. "
-        "Hãy thêm nguyên liệu để nhận gợi ý chính xác hơn.</p>",
-        unsafe_allow_html=True)
-
-if results:
-    cols = st.columns(3)
-    for idx, r in enumerate(results):
-        recipe = r["recipe"]
-        percent = round(r["ratio"] * 100)
-        is_perfect = percent == 100 and st.session_state.ingredients
-
-        if not st.session_state.ingredients:
-            badge_text = "📖 Công thức mẫu"
-            badge_class = "match-badge"
-            card_class = "recipe"
-        elif is_perfect:
-            badge_text = "✨ Hoàn hảo!"
-            badge_class = "match-badge perfect-badge"
-            card_class = "recipe perfect"
-        else:
-            badge_text = f"♻️ {percent}% phù hợp"
-            badge_class = "match-badge"
-            card_class = "recipe"
-
-        tags_html = "".join([f'<span class="tag">{t}</span>' for t in get_tags(recipe)])
-
-        with cols[idx % 3]:
-            st.markdown(f"""
-            <div class="{card_class}">
-              <div class="recipe-emoji">{recipe['emoji']}</div>
-              <span class="{badge_class}">{badge_text}</span>
-              <div class="match-bar"><div class="match-bar-fill" style="width:{percent}%"></div></div>
-              <h4>{recipe['name']}</h4>
-              <div class="muted">⏱️ {recipe['time']} phút · 💰 ~{fmt_price(recipe['cost'])}đ · {get_difficulty(recipe['time'])}</div>
-              <p class="muted" style="margin-top:8px;flex:1">{recipe['desc']}</p>
-              <div style="margin-top:8px">{tags_html}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            if st.button("Xem chi tiết →", key=f"recipe_{recipe['name']}", use_container_width=True):
-                st.session_state.selected_recipe = recipe
-                st.rerun()
-else:
-    st.markdown("""
-    <div class="panel" style="text-align:center;padding:40px">
-      <div style="font-size:64px">🍽️</div>
-      <h3 style="margin:12px 0">Chưa tìm thấy món phù hợp</h3>
-      <p class="muted">Hãy thêm nguyên liệu khác hoặc bỏ bớt bộ lọc để xem thêm gợi ý.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# ============ CHI TIẾT ============
-st.markdown("## 👨‍🍳 Công thức & nguyên liệu")
-selected = st.session_state.selected_recipe
-
-if selected:
-    missing = get_missing(selected)
-    total = sum(PRICES.get(x, 5000) for x in missing)
-    tags_html = "".join([f'<span class="tag">{t}</span>' for t in get_tags(selected)])
-
-    st.markdown(f"""
-    <div style="background:linear-gradient(120deg,#eaf7ed,#fff8ec);border:1px solid #dce9dd;
-                border-radius:22px;padding:26px;margin:8px 0 20px;position:relative;overflow:hidden">
-      <div style="position:absolute;right:-10px;bottom:-20px;font-size:180px;opacity:.07">{selected['emoji']}</div>
-      <div style="font-size:52px">{selected['emoji']}</div>
-      <h2 style="margin:8px 0;color:#183b2b;position:relative">{selected['name']}</h2>
-      <p style="color:#52675a;margin:6px 0;position:relative">{selected['desc']}</p>
-      <div style="margin-top:10px;position:relative">{tags_html}</div>
-      <div style="margin-top:14px;font-weight:700;color:#237a57;position:relative;display:flex;gap:20px;flex-wrap:wrap">
-        <span>⏱️ {selected['time']} phút</span>
-        <span>{get_difficulty(selected['time'])}</span>
-        <span>💰 Mua thêm: {fmt_price(total)}đ</span>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    detail_left, detail_right = st.columns([1, 1.25], gap="large")
-
-    with detail_left:
-        st.markdown("### 🧺 Nguyên liệu")
-        for item in selected["need"]:
-            if item in missing:
-                st.markdown(f"""
-                <div style="display:flex;justify-content:space-between;align-items:center;
-                            background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;
-                            padding:10px 14px;margin-bottom:8px">
-                  <span style="font-weight:600;color:#9a3412">🛒 {item}</span>
-                  <span style="color:#c2410c;font-size:12px;font-weight:700">~{fmt_price(PRICES.get(item,5000))}đ</span>
-                </div>
-                """, unsafe_allow_html=True)
-            else:
-                st.markdown(f"""
-                <div style="display:flex;justify-content:space-between;align-items:center;
-                            background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;
-                            padding:10px 14px;margin-bottom:8px">
-                  <span style="font-weight:600;color:#166534">✅ {item}</span>
-                  <span style="color:#15803d;font-size:12px;font-weight:600">Đã có</span>
-                </div>
-                """, unsafe_allow_html=True)
-
-        st.markdown("---")
-        st.metric("Chi phí mua thêm ước tính", f"{fmt_price(total)}đ")
-
-        shopping_text = "\n".join(
-            [f"- {x}: khoảng {fmt_price(PRICES.get(x,5000))}đ" for x in missing]
-        ) if missing else "Đã có đủ nguyên liệu."
-        download_content = (f"Danh sách mua cho món {selected['name']}\n\n"
-                            f"{shopping_text}\n\nTổng cộng: {fmt_price(total)}đ")
-        st.download_button("⬇️ Tải danh sách mua sắm (.txt)",
-                           data=download_content,
-                           file_name="danh_sach_mua_sam.txt",
-                           mime="text/plain",
-                           use_container_width=True)
-
-    with detail_right:
-        st.markdown("### 👩‍🍳 Các bước thực hiện")
-        raw_steps = selected["steps"].replace(";", ".")
-        step_parts = [p.strip() for p in raw_steps.split(".") if p.strip()]
-        for number, step in enumerate(step_parts, 1):
-            st.markdown(f"""
-            <div style="display:flex;gap:12px;align-items:flex-start;background:#fff;
-                        border:1px solid #e5ece5;border-radius:14px;padding:14px 16px;margin-bottom:10px">
-              <div style="min-width:32px;height:32px;border-radius:10px;
-                          background:linear-gradient(135deg,#e3f3e7,#d1ebd8);color:#237a57;
-                          display:flex;align-items:center;justify-content:center;font-weight:800">{number}</div>
-              <div style="color:#34483b;line-height:1.65;padding-top:4px">{step}</div>
-            </div>
-            """, unsafe_allow_html=True)
-        st.info("💡 Mẹo: Chuẩn bị và sơ chế nguyên liệu trước khi bật bếp để nấu nhanh, gọn hơn.")
-else:
-    st.info("👆 Chọn **“Xem chi tiết”** ở một món ăn để xem công thức và tạo danh sách mua sắm.")
-
-# ============ HOW TO USE ============
-st.markdown("## Cách sử dụng")
-c1, c2, c3 = st.columns(3)
-c1.markdown('<div class="panel"><h3>1️⃣ Nhập nguyên liệu</h3>'
-            '<p class="muted">Liệt kê thực phẩm bạn đang có trong tủ lạnh.</p></div>',
-            unsafe_allow_html=True)
-c2.markdown('<div class="panel"><h3>2️⃣ Chọn món phù hợp</h3>'
-            '<p class="muted">Xem độ phù hợp, thời gian nấu và nguyên liệu còn thiếu.</p></div>',
-            unsafe_allow_html=True)
-c3.markdown('<div class="panel"><h3>3️⃣ Mua đúng thứ cần</h3>'
-            '<p class="muted">Tạo danh sách mua sắm và dự trù số tiền cần thiết.</p></div>',
-            unsafe_allow_html=True)
-
-st.markdown("<div style='text-align:center;color:#718078;font-size:12px;padding:25px'>"
-            "LeftoverChef © 2026 · Biến nguyên liệu còn lại thành bữa ăn mới.</div>",
-            unsafe_allow_html=True)
+        f"với <b>{len(st.session_state.ingredients
